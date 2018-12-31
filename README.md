@@ -7,7 +7,7 @@ Metadata transfer scripts - BitCurator to ASpace
 
 ## Setup and Installation
 
-This script is intended to run in the BitCurator environment. It requires the bulk_extractor tool to be present, and depends on pandas and pathlib. The pandas and pathlib dependencies will be automatically installed by the setup script if not present. 
+This script is intended to run in the BitCurator environment. It requires the bulk_extractor tool to be present, and depends on pandas and pathlib. The pandas and pathlib dependencies are not included by default in the BitCurator environment; they will be automatically installed by the setup script if not present. 
 
 First, open a terminal and check out the lastest version of this repo from GitHub:
 
