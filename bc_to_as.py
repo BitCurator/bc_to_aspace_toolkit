@@ -1,3 +1,17 @@
+#!/usr/bin/python
+# coding=UTF-8
+#
+# bc_to_as.py
+# 
+# This code is distributed under the terms of the GNU General Public 
+# License, Version 3. See the text file "COPYING" for further details 
+# about the terms of this license.
+#
+# This python script prepares metadata produced by the Brunnhilde tool
+# for import into ArchivesSpace, and uses the ArchivesSpace API to perform
+# the import.
+# 
+
 from pathlib import Path
 import getpass
 import datetime
