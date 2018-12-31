@@ -1,0 +1,50 @@
+{
+  "jsonmodel_type": "resource",
+  "external_ids": [],
+  "subjects": [],
+  "linked_events": [],
+  "extents": [{
+    "jsonmodel_type": "extent",
+    "portion": "whole",
+    "number": null,
+    "extent_type": "megabytes",
+    "dimensions": null,
+    "physical_details": null
+  }],
+  "dates": [{
+      "jsonmodel_type": "date",
+      "date_type": "inclusive",
+      "label": "creation",
+      "begin": null,
+      "end": null,
+      "certainty": "inferred",
+      "era": null,
+      "calendar": "gregorian",
+      "expression": null
+    }
+  ],
+  "external_documents": [],
+  "rights_statements": [],
+  "linked_agents": [],
+  "restrictions": false,
+  "revision_statements": [],
+  "instances": [],
+  "deaccessions": [],
+  "related_accessions": [],
+  "classifications": [],
+  "notes": [{
+      "jsonmodel_type": "note_singlepart",
+      "type": null,
+      "content": []
+  }],
+  "title": null,
+  "id_0": null,
+  "level": null,
+  "language": null,
+  "ead_id": null,
+  "finding_aid_date": null,
+  "finding_aid_series_statement": null,
+  "finding_aid_language": null,
+  "finding_aid_note": null,
+  "ead_location": null
+}

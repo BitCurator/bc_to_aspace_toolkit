@@ -1,0 +1,41 @@
+{
+  "jsonmodel_type": "archival_object",
+  "external_ids": [],
+  "subjects": [],
+  "linked_events": [],
+  "extents": [{
+    "jsonmodel_type": "extent",
+    "portion": "whole",
+    "number": null,
+    "extent_type": "megabytes",
+    "dimensions": null,
+    "physical_details": null
+  }],
+  "dates": [{
+      "jsonmodel_type": "date",
+      "date_type": "inclusive",
+      "label": "creation",
+      "begin": null,
+      "end": null,
+      "certainty": "inferred",
+      "era": null,
+      "calendar": "gregorian",
+      "expression": null
+    }
+  ],
+  "external_documents": [],
+  "rights_statements": [],
+  "linked_agents": [],
+  "restrictions_apply": false,
+  "ancestors": [],
+  "instances": [],
+  "notes": [{
+      "jsonmodel_type": "note_singlepart",
+      "type": null,
+      "content": []
+  }],
+  "ref_id": null,
+  "level": null,
+  "title": null,
+  "resource":{ "ref":null}
+}
