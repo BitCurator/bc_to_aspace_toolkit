@@ -57,7 +57,7 @@ This tells us there is a FAT32 file system located at sector 1 (512 bytes into t
 bcadmin@ubuntu:~$ brunnhilde.py -z --tsk_imgtype ewf --tsk_fstype fat --tsk_sector_offset 1 -d nps-2010-emails.E01 /home/bcadmin brunnhilde-reports
 ```
 
-This extracts all files into the directory **brunnhilde-reports** in our home directory, **/home/bcadmin**. Note the -z flag at the beginning, which ensures Siegfried will be run, and the -d flag before the path to the disk image. Also note the process may take some time.
+This extracts all files into the directory **brunnhilde-reports** in our home directory, **/home/bcadmin**. Note the **-z** flag at the beginning, which ensures Siegfried will be run, and the **-d** flag before the path to the disk image. Also note the process may take some time.
 
 Change directory into the **brunnhilde-reports** directory and examine the contents. Then, change directory into the **csv_reports** directory that it contains and examine those contents:
 
@@ -86,7 +86,6 @@ Now, make a new project directory inside the repository directory. Repository di
 ```shell
 bcadmin@ubuntu:~$ cd ossarcflow_repository/
 bcadmin@ubuntu:~/ossarcflow_repository$ mkdir project1
-bcadmin@ubuntu:~/ossarcflow_repository$ 
 ```
 
 Now, change into the project directory and make a directory corresponding to our dataset (we'll copy the CSV files we created earlier into this directory next):
