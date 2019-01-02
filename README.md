@@ -134,8 +134,9 @@ You should now see the unpublished **ossarcflow_repository** listed in your Arch
 
 ## What's in this repository
 
-- **json-templates**: JSON templates for the relevant metadata to be created / transfered
-- **sample-data**: Small sample data sets using Brunnhilde output for an existing disk image (not included)
+- **json_templates**: JSON templates for the relevant metadata to be created / transfered
+- **repository-and-project-samples**: Small sample data sets using Brunnhilde output for an existing disk image (not included)
+- **sample-disk-images**: One or more sample disk images referenced in this document
 - **bc_to_as.py**: Script to create and transfer the relevant objects via the ASpace API
 
 ## Documentation, help, and other information
