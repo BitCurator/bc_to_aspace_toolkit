@@ -25,7 +25,85 @@ sudo python3 setup.py install
 
 ## Running the script
 
-See the Google Doc link in the documentation section below.
+A simple example with the included sample disk image is provided here. For more detailed instructions, see the Google Doc link in the **Documentation, help, and other information** section below.
+
+This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace-vagrant. The script also assumes the **brunnhilde.py** script is installed.
+
+Ensure you're in the bc-to-aspace-toolkit directory, then copy the provided sample image to your home directory:
+
+```shell
+bcadmin@ubuntu:~$ cd ~/bc-to-aspace-toolkit
+bcadmin@ubuntu:~$ cp sample-disk-images/nps-2010-emails.E01 ~/
+```
+
+The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, to extract files from disk images. The **tsk_recover** tool will make a best effort to autodetect disk image type, file system type, and partition offset, but this does not always work. We know this is likely an Expert Witness (E01) file from the file extension, and we can use the **mmls** tool to find the remaining information:
+
+```shell
+bcadmin@ubuntu:~/bc-to-aspace-toolkit$ cd ~/
+bcadmin@ubuntu:~$ mmls nps-2010-emails.E01 
+DOS Partition Table
+Offset Sector: 0
+Units are in 512-byte sectors
+
+      Slot      Start        End          Length       Description
+000:  Meta      0000000000   0000000000   0000000001   Primary Table (#0)
+001:  -------   0000000000   0000000000   0000000001   Unallocated
+002:  000:000   0000000001   0000020479   0000020479   Win95 FAT32 (0x0b)
+```
+
+This tells us there is a FAT32 file system located at sector 1 (512 bytes into the image). We can pass this information through to **tsk_recover** via Brunnhilde as follows:
+
+```shell
+bcadmin@ubuntu:~$ brunnhilde.py -z --tsk_imgtype ewf --tsk_fstype fat --tsk_sector_offset 1 -d nps-2010-emails.E01 /home/bcadmin brunnhilde-reports
+```
+
+This extracts all files into the directory **brunnhilde-reports** in our home directory, **/home/bcadmin**. Note the -z flag at the beginning, which ensures Siegfried will be run, and the -d flag before the path to the disk image. Also note the process may take some time.
+
+Change directory into the **brunnhilde-reports** directory and examine the contents. Then, change directory into the **csv_reports** directory that it contains and examine those contents:
+
+```shell
+bcadmin@ubuntu:~$ cd brunnhilde-reports/
+bcadmin@ubuntu:~/brunnhilde-reports$ ls
+carved_files  dfxml.xml  report.html    tree.txt
+csv_reports   logs       siegfried.csv
+bcadmin@ubuntu:~/brunnhilde-reports$ cd csv_reports/
+bcadmin@ubuntu:~/brunnhilde-reports/csv_reports$ ls
+duplicates.csv  formats.csv         mimetypes.csv     warnings.csv
+errors.csv      formatVersions.csv  unidentified.csv  years.csv
+```
+
+We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that matches our repository, project, and dataset information. For this example, we will assume our ArchivesSpace instance is **clean** and contains no existing repositories.
+
+First, move back to the home directory and create folder corresponding to a new repository:
+
+```shell
+bcadmin@ubuntu:~$ cd ~/
+bcadmin@ubuntu:~$ mkdir ossarcflow_repository
+```
+
+Now, make a new project directory inside the repository directory. Repository directories can contain more than one project.
+
+```shell
+bcadmin@ubuntu:~$ cd ossarcflow_repository/
+bcadmin@ubuntu:~/ossarcflow_repository$ mkdir project1
+bcadmin@ubuntu:~/ossarcflow_repository$ 
+```
+
+Now, change into the project directory and make a directory corresponding to our dataset (we'll copy the CSV files we created earlier into this directory next):
+
+```shell
+bcadmin@ubuntu:~/ossarcflow_repository$ cd project1/
+bcadmin@ubuntu:~/ossarcflow_repository/project1$ mkdir SET1_brunnout
+```
+
+Now copy the relevant CSV files over (note that formats.csv and siegfried.csv have different source locations):
+
+```shell
+bcadmin@ubuntu:~/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/csv_reports/formats.csv SET1_brunnout/
+bcadmin@ubuntu:~/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
+```
+
+**[MORE TO COME...]**
 
 ## What's in this repository
 
