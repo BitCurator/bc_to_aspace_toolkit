@@ -25,7 +25,7 @@ sudo python3 setup.py install
 
 ## Running the script
 
-A simple example with the included sample disk image is provided here. For more detailed instructions, see the Google Doc link in the **Documentation, help, and other information** section below.
+A simple example with the included sample disk image is provided here.
 
 This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace-vagrant. The script also assumes the **brunnhilde.py** script is installed.
 
@@ -113,7 +113,7 @@ bcadmin@ubuntu:~/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/siegfri
 
 ## Documentation, help, and other information
 
-In-progress documentation at: https://docs.google.com/document/d/1-pU__nBYSgjHhfcxYhQLdci9rxSgo1XiXpLEFgQSkCE
+Additional in-progress documentation at: https://docs.google.com/document/d/1-pU__nBYSgjHhfcxYhQLdci9rxSgo1XiXpLEFgQSkCE
 
 ## License(s)
 
