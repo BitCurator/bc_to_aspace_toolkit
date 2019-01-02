@@ -180,10 +180,10 @@ def get_archival_object(ref_id, repository_uri, session_id, host):
 
 def get_repository_uri(repo_code, session_id, host):
     """
-    Get a repository uri in ArchivesSpace databse using a given repo_code
+    Get a repository uri in ArchivesSpace database using a given repo_code
 
     Args:
-        repo_code (string): a given id used to search for repositories in databse
+        repo_code (string): a given id used to search for repositories in database
         session_id (string): session_id
         host (string): api URL
 
@@ -241,7 +241,7 @@ for repository_folder in get_dir_names(dir_path):
         repository_uri = call_archivesspace_api(
             host, session_id, 'post', '/repositories', repository)['uri']
 
-    # find the path of the preject folders in the repository folder.
+    # Find the path of the preject folders in the repository folder.
     project_folder_paths = dir_path + '/' + repository_folder
 
     # For each project folder in the repository folder:
