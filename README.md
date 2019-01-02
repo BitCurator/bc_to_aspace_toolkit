@@ -74,35 +74,63 @@ errors.csv      formatVersions.csv  unidentified.csv  years.csv
 
 We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that matches our repository, project, and dataset information. For this example, we will assume our ArchivesSpace instance is **clean** and contains no existing repositories.
 
-First, move back to the home directory and create folder corresponding to a new repository:
+First, move back to the home directory and create a **repositories** folder:
 
 ```shell
 bcadmin@ubuntu:~$ cd ~/
-bcadmin@ubuntu:~$ mkdir ossarcflow_repository
+bcadmin@ubuntu:~$ mkdir repositories
+```
+
+The **bc_to_as.py** script needs access to some JSON templates that are included in this GitHub repo. Copy that folder into the repositories directory so the installed script will know where to find it:
+
+```shell
+bcadmin@ubuntu:~$ cp -r ~/bc-to-aspace-toolkit/json_templates repositories
+```
+
+Now, create folder corresponding to a new repository:
+
+```shell
+bcadmin@ubuntu:~$ cd ~/repositories
+bcadmin@ubuntu:~/repositories$ mkdir ossarcflow_repository
 ```
 
 Now, make a new project directory inside the repository directory. Repository directories can contain more than one project.
 
 ```shell
-bcadmin@ubuntu:~$ cd ossarcflow_repository/
-bcadmin@ubuntu:~/ossarcflow_repository$ mkdir project1
+bcadmin@ubuntu:~/repositories$ cd ossarcflow_repository/
+bcadmin@ubuntu:~/repositories/ossarcflow_repository$ mkdir project1
 ```
 
 Now, change into the project directory and make a directory corresponding to our dataset (we'll copy the CSV files we created earlier into this directory next):
 
 ```shell
-bcadmin@ubuntu:~/ossarcflow_repository$ cd project1/
-bcadmin@ubuntu:~/ossarcflow_repository/project1$ mkdir SET1_brunnout
+bcadmin@ubuntu:~/repositories/ossarcflow_repository$ cd project1/
+bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ mkdir SET1_brunnout
 ```
 
 Now copy the relevant CSV files over (note that formats.csv and siegfried.csv have different source locations):
 
 ```shell
-bcadmin@ubuntu:~/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/csv_reports/formats.csv SET1_brunnout/
-bcadmin@ubuntu:~/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
+bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/csv_reports/formats.csv SET1_brunnout/
+bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
 ```
 
-**[MORE TO COME...]**
+Finally, change directory so you are in the **repositories** directory, and run the **bc_to_as.py** script. You will need to authenticate with a user that has permissions to create and modify repositories and their contents on ArchivesSpace. For this simple example, we'll use the default **admin** user:
+
+```shell
+bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cd ~/repositories 
+bcadmin@ubuntu:~/repositories$ bc_to_as.py 
+ASpace backend URL: http://azalea.ils.unc.edu:8089
+Username: admin	
+Password: 
+Created by: admin
+Connected to ASpace backend!
+status of SET1:
+{'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
+Completed!
+```
+
+You should now see the unpublished **ossarcflow_repository** listed in your ArchivesSpace console (assuming you are logged in). 
 
 ## What's in this repository
 
