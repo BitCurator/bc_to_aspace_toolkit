@@ -7,7 +7,7 @@ Metadata transfer scripts - BitCurator to ASpace
 
 ## Setup and Installation
 
-This script is intended to be run in the BitCurator environment (or a similarly configured Linux host). It requires the bulk_extractor tool to be present, and depends on pandas and pathlib. The pandas and pathlib dependencies are not included by default in the BitCurator environment; they will be automatically installed by the setup script if not present. 
+This script is intended to be run in the BitCurator environment (or a similarly configured Linux host). It requires the **bulk_extractor** tool to be present (https://github.com/simsong/bulk_extractor), along with Brunnhilde (https://github.com/timothyryanwalsh/brunnhilde). Both of these are preinstalled in BitCurator. It also depends on **pandas** and **pathlib**. The **pandas** and **pathlib** dependencies are not included by default in the BitCurator environment; they will be automatically installed by the setup script if not present. 
 
 First, open a terminal and check out the lastest version of this repo from GitHub:
 
@@ -27,7 +27,7 @@ sudo python3 setup.py install
 
 A simple example with the included sample disk image is provided here.
 
-This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace-vagrant. The script also assumes the **brunnhilde.py** script is installed.
+This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace-vagrant.
 
 Ensure you're in the bc-to-aspace-toolkit directory, then copy the provided sample image to your home directory:
 
