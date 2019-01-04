@@ -64,8 +64,8 @@ Change directory into the **brunnhilde-reports** directory and examine the conte
 ```shell
 bcadmin@ubuntu:~$ cd brunnhilde-reports/
 bcadmin@ubuntu:~/brunnhilde-reports$ ls
-carved_files  dfxml.xml  report.html    tree.txt
-csv_reports   logs       siegfried.csv
+bulk_extractor  csv_reports  logs         siegfried.csv
+carved_files    dfxml.xml    report.html  tree.txt
 bcadmin@ubuntu:~/brunnhilde-reports$ cd csv_reports/
 bcadmin@ubuntu:~/brunnhilde-reports/csv_reports$ ls
 duplicates.csv  formats.csv         mimetypes.csv     warnings.csv
