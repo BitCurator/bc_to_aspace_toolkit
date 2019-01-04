@@ -115,7 +115,7 @@ bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cp ~/brunnhilde-re
 bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
 ```
 
-Finally, change directory so you are in the **repositories** directory, and run the **bc_to_as.py** script. You will need to authenticate with a user that has permissions to create and modify repositories and their contents on ArchivesSpace. For this simple example, we'll use the default **admin** user (note - the password is not shown below):
+Finally, change directory so you are in the **repositories** directory, and run the **bc_to_as.py** script. You will need to authenticate with a user that has permissions to create and modify repositories and their contents on ArchivesSpace. For this simple example, we'll use the default **admin** user (the default admin password for ArchivesSpace is also **admin**; the password is not shown below, but must be typed in):
 
 ```shell
 bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cd ~/repositories 
