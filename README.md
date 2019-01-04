@@ -9,18 +9,18 @@ Metadata transfer scripts - BitCurator to ASpace
 
 This script is intended to be run in the BitCurator environment (or a similarly configured Linux host). It requires the **bulk_extractor** tool to be present (https://github.com/simsong/bulk_extractor), along with Brunnhilde (https://github.com/timothyryanwalsh/brunnhilde). Both of these are preinstalled in BitCurator. It also depends on **pandas** and **pathlib**. The **pandas** and **pathlib** dependencies are not included by default in the BitCurator environment; they will be automatically installed by the setup script if not present. 
 
-First, open a terminal and check out the lastest version of this repo from GitHub:
+All commands from this point forward are presented as if logged in as the **bcadmin** user in BitCurator. First, open a terminal and check out the lastest version of this repo from GitHub:
 
 ```shell
-git clone https://github.com/bitcurator/bc-to-aspace-toolkit
+bcadmin@ubuntu:~$ git clone https://github.com/bitcurator/bc-to-aspace-toolkit
 ```
 
 To install, run the following commands:
 
 ```shell
-cd bc-to-aspace-toolkit
-python3 setup.py build
-sudo python3 setup.py install
+bcadmin@ubuntu:~$ cd bc-to-aspace-toolkit
+bcadmin@ubuntu:~$ python3 setup.py build
+bcadmin@ubuntu:~$ sudo python3 setup.py install
 ```
 
 ## Running the script
