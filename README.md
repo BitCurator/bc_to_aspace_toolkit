@@ -54,10 +54,10 @@ Units are in 512-byte sectors
 This tells us there is a FAT32 file system located at sector 1 (512 bytes into the image). We can pass this information through to **tsk_recover** via Brunnhilde as follows:
 
 ```shell
-bcadmin@ubuntu:~$ brunnhilde.py -z --tsk_imgtype ewf --tsk_fstype fat --tsk_sector_offset 1 -d nps-2010-emails.E01 /home/bcadmin brunnhilde-reports
+bcadmin@ubuntu:~$ brunnhilde.py -z -b --tsk_imgtype ewf --tsk_fstype fat --tsk_sector_offset 1 -d nps-2010-emails.E01 /home/bcadmin brunnhilde-reports
 ```
 
-This extracts all files into the directory **brunnhilde-reports** in our home directory, **/home/bcadmin**. Note the **-z** flag at the beginning, which ensures Siegfried will be run, and the **-d** flag before the path to the disk image. Also note the process may take some time.
+This extracts all files into the directory **brunnhilde-reports** in our home directory, **/home/bcadmin**. Note the **-z** flag at the beginning, which tells Brunnhilde to run Siegfried in order to scan compressed files; the **-b** flag, which tells Brunnhilde to run **bulk_extractor** and create the default reports; and the **-d** flag indicating we are providing a path to a disk image. Be aware! The process of running these tools may take some time.
 
 Change directory into the **brunnhilde-reports** directory and examine the contents. Then, change directory into the **csv_reports** directory that it contains and examine those contents:
 
