@@ -256,7 +256,7 @@ def check_repo_structure(repo_dir):
                 exit(1)
             else:
                 for metadata_dir in metadata_dirs:
-                    print("[INFO] -- Found metadata directory {}".format(metadata_dir)
+                    print("[INFO] -- Found metadata directory {}".format(metadata_dir))
                     print("       -- in project directory {}".format(project_dir))
             print()
 
