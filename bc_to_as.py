@@ -228,8 +228,9 @@ def get_repository_uri(repo_code, session_id, host):
 def check_repo_structure(repo_dir):
 
     print()
-    print("Ok, found the repository structure directory {}.".format(repo_dir))
+    print("Ok, found the repository structure directory {}".format(repo_dir))
     print("Looking for project directories...")
+    print()
 
     project_dirs = get_dir_paths(repo_dir)
     if len(project_dirs) == 0:
@@ -237,14 +238,15 @@ def check_repo_structure(repo_dir):
         exit(1)
     else:
         for project_dir in project_dirs:
-            print("Found project directory {}.".format(project_dir))
+            print("Found project directory {}".format(project_dir))
             metadata_dirs = get_dir_paths(project_dir)
             if len(metadata_dirs) == 0:
                 print("No metadata directories found in project directory {}! Aborting!".format(project_dir))
                 exit(1)
             else:
                 for metadata_dir in metadata_dirs:
-                    print("Found metadata directory {} in project directory {}.".format(metadata_dir, project_dir))
+                    print("Found metadata directory {} in project directory {}".format(metadata_dir, project_dir))
+           print()
 
 
 def run_session(dir_path):
