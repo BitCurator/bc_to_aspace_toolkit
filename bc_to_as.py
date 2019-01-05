@@ -228,24 +228,23 @@ def get_repository_uri(repo_code, session_id, host):
 def check_repo_structure(repo_dir):
 
     print()
-    print("Ok, found the repository structure directory {}".format(repo_dir))
-    print("Looking for project directories...")
-    print()
+    print("[INFO] Found repository structure directory {}".format(repo_dir))
+    print("[INFO] Looking for project directories...")
 
     project_dirs = get_dir_paths(repo_dir)
     if len(project_dirs) == 0:
-        print("No project directories found! Aborting!")
+        print("[ABORT] No project directories found!")
         exit(1)
     else:
         for project_dir in project_dirs:
-            print("Found project directory {}".format(project_dir))
+            print("[INFO] Found project directory {}".format(project_dir))
             metadata_dirs = get_dir_paths(project_dir)
             if len(metadata_dirs) == 0:
-                print("No metadata directories found in project directory {}! Aborting!".format(project_dir))
+                print("[ABORT] No metadata directories found in project directory {}!".format(project_dir))
                 exit(1)
             else:
                 for metadata_dir in metadata_dirs:
-                    print("Found metadata directory {} in project directory {}".format(metadata_dir, project_dir))
+                    print("[INFO] Found metadata directory {} in project directory {}".format(metadata_dir, project_dir))
             print()
 
 
@@ -435,5 +434,5 @@ if __name__=="__main__":
        run_session(repo_dir)
 
     else:
-       print("The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
+       print("[ABORT] The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
 
