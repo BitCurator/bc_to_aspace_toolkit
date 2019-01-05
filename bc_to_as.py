@@ -379,9 +379,6 @@ def run_session(dir_path):
 
 if __name__=="__main__":
    
-    # Get the path of home diretory
-    dir_path = sys.argv[1]
-
     parser = ArgumentParser(prog='bc_to_as.py', description='Import Brunnhilde-generated metadata into ArchivesSpace')
     parser.add_argument('--repo', action='store', help="Top level local directory corresponding to repository structure")
     args = parser.parse_args()
