@@ -231,7 +231,7 @@ def check_repo_structure(repo_dir):
     print("Ok, found the repository structure directory {}.".format(repo_dir))
     print("Looking for project directories...")
 
-    project_dirs = get_dir_names(repo_dir)
+    project_dirs = get_dir_paths(repo_dir)
     if len(project_dirs) == 0:
         print("No project directories found! Aborting!")
         exit(1)
