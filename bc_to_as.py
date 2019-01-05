@@ -66,7 +66,7 @@ def get_dir_paths(dir_path, exclude=['__pycache__', 'json_templates']):
     return results
 
 
-def create_json_file(template_name, dir_path):
+def create_json_file(template_name):
     """
     Create a json file using existing json templates
 
@@ -308,7 +308,7 @@ def run_session(dir_path):
         repository_uri = get_repository_uri(repository_folder, session_id, host)
 
         if repository_uri == '':
-            repository = create_json_file('create_repositories', dir_path)
+            repository = create_json_file('create_repositories')
             repository['create_time'] = datetime.datetime.now().strftime(
                 '%Y-%m-%d')
             repository['created_by'] = created_by
@@ -342,7 +342,7 @@ def run_session(dir_path):
                 parent_archival_object_uri = ''
 
             if parent_archival_object_uri == '':
-                parent_resource = create_json_file('create_resources', dir_path)
+                parent_resource = create_json_file('create_resources')
                 parent_resource['id_0'] = project_folder
                 parent_resource['dates'][0]['begin'] = datetime.datetime.now().strftime(
                     '%Y-%m-%d')
@@ -356,8 +356,7 @@ def run_session(dir_path):
                 parent_resource_uri = call_archivesspace_api(
                     host, session_id, 'post', resource_api, parent_resource)['uri']
 
-                parent_object = create_json_file(
-                    'create_archival_objects', dir_path)
+                parent_object = create_json_file('create_archival_objects')
                 parent_object['title'] = project_folder
                 parent_object['level'] = 'file'
                 parent_object['ref_id'] = project_folder
@@ -370,8 +369,7 @@ def run_session(dir_path):
                     host, session_id, 'post', parent_object_api, parent_object)['uri']
             else:
                 if parent_resource_uri == '':
-                    parent_resource = create_json_file(
-                        'create_resources', dir_path)
+                    parent_resource = create_json_file('create_resources')
                     parent_resource['id_0'] = project_folder
                     parent_resource['dates'][0]['begin'] = datetime.datetime.now().strftime(
                         '%Y-%m-%d')
@@ -416,8 +414,7 @@ def run_session(dir_path):
                     note_detail.append(
                         "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
 
-                child_archival_object = create_json_file(
-                    'create_child_archival_objects', dir_path)
+                child_archival_object = create_json_file('create_child_archival_objects')
                 child_archival_object['children'][0]['dates'][0]['begin'] = begin_date.strftime(
                     '%Y-%m-%d')
                 child_archival_object['children'][0]['dates'][0]['end'] = end_date.strftime(
