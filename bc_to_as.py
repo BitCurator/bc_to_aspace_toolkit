@@ -77,10 +77,17 @@ def create_json_file(template_name, dir_path):
     Returns:
         type: a json file
     """
+    #template_path = dir_path + '/json_templates/' + template_name + '.json'
+    #with open(template_path) as f:
+    #    template = json.load(f)
+
     import json
-    template_path = dir_path + '/json_templates/' + template_name + '.json'
-    with open(template_path) as f:
-        template = json.load(f)
+
+    print("[INFO] Getting template stream for {}".format(template_name + '.json'))
+    template_stream = utilities.get_json_template(template_name + '.json')
+    template = json.load(template_stream)
+    print("[INFO] Successfully created template {}".format(template_name))
+
     return template
 
 
