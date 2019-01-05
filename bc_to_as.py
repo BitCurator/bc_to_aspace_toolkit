@@ -387,6 +387,6 @@ if __name__=="__main__":
        repodir = args.repodir
        run_session(repodir)
     else:
-       print("The directory {} does not exist. Check the path and directory name and try again.".format(args.repodir))
+       print("The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
 
     exit(1)
