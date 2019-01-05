@@ -213,9 +213,18 @@ def check_repo_structure(repo_dir):
     project_dirs = get_dir_names(repo_dir)
     if len(project_dirs) == 0:
         print("No project directories found! Aborting!")
+        exit(1)
     else:
         for project_dir in project_dirs:
             print("Found project directory {}.".format(project_dir))
+            metadata_dirs = get_dir_names(project_dir)
+            if len(metadata_dirs) == 0:
+                print("No metadata directories found in project directory {}! Aborting!".format(project_dir))
+                exit(1)
+            else:
+                for metadata_dir in metadata_dirs:
+                    print("Found metadata directory {} in project directory {}.".format(metadata_dir, project_dir))
+
 
 def run_session(dir_path):
 
