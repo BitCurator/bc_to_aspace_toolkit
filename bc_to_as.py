@@ -265,6 +265,7 @@ def check_repo_structure(repo_dir):
        exit(1)
     else:
        print("[INFO] Ok, continuing...")
+       print()
 
 def run_session(dir_path):
 
