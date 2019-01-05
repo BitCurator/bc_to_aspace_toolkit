@@ -246,7 +246,7 @@ def check_repo_structure(repo_dir):
             else:
                 for metadata_dir in metadata_dirs:
                     print("Found metadata directory {} in project directory {}".format(metadata_dir, project_dir))
-           print()
+            print()
 
 
 def run_session(dir_path):
