@@ -1,7 +1,7 @@
-# bc-to-aspace-toolkit
+# bc_to_aspace_toolkit
 
-[![GitHub issues](https://img.shields.io/github/issues/bitcurator/bc-to-aspace-toolkit.svg)](https://github.com/bitcurator/bc-to-aspace-toolkit/issues)
-[![GitHub forks](https://img.shields.io/github/forks/bitcurator/bc-to-aspace-toolkit.svg)](https://github.com/bitcurator/bc-to-aspace-toolkit/network)
+[![GitHub issues](https://img.shields.io/github/issues/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/issues)
+[![GitHub forks](https://img.shields.io/github/forks/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/network)
 
 Metadata transfer scripts - BitCurator to ASpace
 
@@ -12,13 +12,13 @@ This script is intended to be run in the BitCurator environment (or a similarly 
 All commands from this point forward are presented as if logged in as the **bcadmin** user in BitCurator. First, open a terminal and check out the lastest version of this repo from GitHub:
 
 ```shell
-bcadmin@ubuntu:~$ git clone https://github.com/bitcurator/bc-to-aspace-toolkit
+bcadmin@ubuntu:~$ git clone https://github.com/bitcurator/bc_to_aspace_toolkit
 ```
 
 To install, run the following commands:
 
 ```shell
-bcadmin@ubuntu:~$ cd bc-to-aspace-toolkit
+bcadmin@ubuntu:~$ cd bc_to_aspace_toolkit
 bcadmin@ubuntu:~$ python3 setup.py build
 bcadmin@ubuntu:~$ sudo python3 setup.py install
 ```
@@ -27,19 +27,19 @@ bcadmin@ubuntu:~$ sudo python3 setup.py install
 
 A simple example with the included sample disk image is provided here.
 
-This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace-vagrant.
+This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace_vagrant.
 
-Ensure you're in the bc-to-aspace-toolkit directory, then copy the provided sample image to your home directory:
+Ensure you're in the bc_to_aspace_toolkit directory, then copy the provided sample image to your home directory:
 
 ```shell
-bcadmin@ubuntu:~$ cd ~/bc-to-aspace-toolkit
+bcadmin@ubuntu:~$ cd ~/bc_to_aspace_toolkit
 bcadmin@ubuntu:~$ cp sample-disk-images/nps-2010-emails.E01 ~/
 ```
 
 The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, to extract files from disk images. The **tsk_recover** tool will make a best effort to autodetect disk image type, file system type, and partition offset, but this does not always work. We know this is likely an Expert Witness (E01) file from the file extension, and we can use the **mmls** tool to find the remaining information:
 
 ```shell
-bcadmin@ubuntu:~/bc-to-aspace-toolkit$ cd ~/
+bcadmin@ubuntu:~/bc_to_aspace_toolkit$ cd ~/
 bcadmin@ubuntu:~$ mmls nps-2010-emails.E01 
 DOS Partition Table
 Offset Sector: 0
@@ -84,7 +84,7 @@ bcadmin@ubuntu:~$ mkdir repositories
 The **bc_to_as.py** script needs access to some JSON templates that are included in this GitHub repo. Copy that folder into the repositories directory so the installed script will know where to find it:
 
 ```shell
-bcadmin@ubuntu:~$ cp -r ~/bc-to-aspace-toolkit/json_templates repositories
+bcadmin@ubuntu:~$ cp -r ~/bc_to_aspace_toolkit/json_templates repositories
 ```
 
 Now, create folder corresponding to a new repository:
