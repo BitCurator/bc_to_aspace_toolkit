@@ -259,8 +259,8 @@ def check_repo_structure(repo_dir):
                     print("[INFO] Found metadata directory {} in project directory {}".format(metadata_dir, project_dir))
             print()
 
-    user_reponse = ask_user("Is this the correct set of directories?")
-    if user_reponse == False:
+    user_response = ask_user("Is this the correct set of directories?")
+    if user_response == False:
        print("[ABORT] Please check the directory structure and try again.")
        exit(1)
     else:
@@ -285,7 +285,7 @@ def run_session(dir_path):
         print("Connected to ArchivesSpace backend!")
     except:
         user_response = ask_user("Username, password, or URL was incorrect.  Try again?")
-        if user_reponse == False:
+        if user_response == False:
             print("[ABORT] Quitting...")
             exit(1)
         else:
