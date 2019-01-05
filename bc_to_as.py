@@ -44,6 +44,27 @@ def get_dir_names(dir_path, exclude=['__pycache__', 'json_templates']):
     return results
 
 
+def get_dir_paths(dir_path, exclude=['__pycache__', 'json_templates']):
+    """
+    Get paths of the first-level folders existed in a given folder
+
+    Args:
+        dir_path (str): the path of the given folders;
+        exclude (array): the folders don't want to be retrieved;
+    Returns:
+        type: folder paths (array).
+    """
+    import os
+    dir_names = [dirs for root, dirs, files in os.walk(dir_path)][0]
+    results = []
+    for dir in dir_names:
+        if dir not in exclude:
+            path = dir_path + '/' + dir
+            if len(os.listdir(path)) > 0:
+                results.append(path)
+    return results
+
+
 def create_json_file(template_name, dir_path):
     """
     Create a json file using existing json templates
