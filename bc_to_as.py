@@ -212,8 +212,8 @@ else:
     created_by = input('Created by: ')
 
 
-# Get the path of home diretory (where this script is hosted)
-dir_path = str(Path().absolute())
+# Get the path of home diretory
+dir_path = sys.argv[1]
 
 # retrieve session id
 try:
