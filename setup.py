@@ -1,15 +1,22 @@
-from setuptools import setup
+import os,glob
+from setuptools import setup, find_packages
 
 setup(
-    name = 'bc_to_aspace',
+    name = 'bc_to_aspace_toolkit',
     version = '0.0.1',
-    url = 'https://github.com/bitcurator/bc-to-aspace-toolkit',
+    url = 'https://github.com/bitcurator/bc_to_aspace_toolkit',
     author = 'Yinglong Zhang',
     author_email = 'yz6939@email.unc.edu',
-    py_modules = ['bc_to_as'],
+
+    packages = ['bc_to_aspace_toolkit'],
     scripts = ['bc_to_as.py'],
+
+    # Required for access to our static json_templates resources
+    include_package_data = True,
+
     description = 'Metqdata transfer script from BitCurator to ASpace',
     keywords = 'metadata identification disk images',
+
     platforms = ['POSIX', 'Windows'],
     install_requires=['pandas', 'pathlib'],
     classifiers = [
