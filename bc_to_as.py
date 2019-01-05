@@ -238,7 +238,7 @@ def check_repo_structure(repo_dir):
     else:
         for project_dir in project_dirs:
             print("Found project directory {}.".format(project_dir))
-            metadata_dirs = get_dir_names(project_dir)
+            metadata_dirs = get_dir_paths(project_dir)
             if len(metadata_dirs) == 0:
                 print("No metadata directories found in project directory {}! Aborting!".format(project_dir))
                 exit(1)
