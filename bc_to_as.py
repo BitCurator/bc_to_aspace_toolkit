@@ -204,8 +204,18 @@ def get_repository_uri(repo_code, session_id, host):
             repository_uri = repository['uri']
     return repository_uri
 
+def check_repo_structure(repo_dir):
 
-#################################################################
+    print()
+    print("Ok, found the repository structure directory {}.".format(repo_dir))
+    print("Looking for project directories...")
+
+    project_dirs = get_dir_names(repo_dir)
+    if len(project_dirs) == 0:
+        print("No project directories found! Aborting!")
+    else:
+        for project_dir in project_dirs:
+            print("Found project directory {}.".format(project_dir))
 
 def run_session(dir_path):
 
@@ -384,9 +394,14 @@ if __name__=="__main__":
     args = parser.parse_args()
 
     if os.path.isdir(args.repodir):
-       repodir = args.repodir
-       run_session(repodir)
+       repo_dir = args.repodir
+
+       # Check the structure of the local directory.
+       check_repo_structure(repo_dir)
+
+       # Proceed and connect to backend.
+       run_session(repo_dir)
+
     else:
        print("The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
 
-    exit(1)
