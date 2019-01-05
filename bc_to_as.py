@@ -261,7 +261,7 @@ def check_repo_structure(repo_dir):
 
     user_reponse = ask_user("Is this the correct set of directories?")
     if user_reponse == False:
-       print("[Abort] Please check the directory structure and try again.")
+       print("[ABORT] Please check the directory structure and try again.")
        exit(1)
     else:
        print("[INFO] Ok, continuing...")
@@ -284,7 +284,12 @@ def run_session(dir_path):
         session_id = get_sessionId(host, username, password)
         print("Connected to ArchivesSpace backend!")
     except:
-        sys.exit("Oops! the username or password was incorrect.  Try again...")
+        user_response = ask_user("Username, password, or URL was incorrect.  Try again?")
+        if user_reponse == False:
+            print("[ABORT] Quitting...")
+            exit(1)
+        else:
+            return run_session(dir_path)
 
     # For each repository folder in the home diretory (dir_path)
     #     Search for a repository using the name of the repository folder;
