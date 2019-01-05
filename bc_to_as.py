@@ -225,11 +225,23 @@ def get_repository_uri(repo_code, session_id, host):
             repository_uri = repository['uri']
     return repository_uri
 
+def ask_user(question):
+    while "Please enter y or n":
+        if sys.version_info[0] < 3:
+            reply = str(raw_input(question+' (y/n): ')).lower().strip()
+        else:
+            reply = str(input(question+' (y/n): ')).lower().strip()
+        if reply[:1] == 'y':
+            return True
+        if reply[:1] == 'n':
+            return False
+
 def check_repo_structure(repo_dir):
 
     print()
     print("[INFO] Found repository structure directory {}".format(repo_dir))
     print("[INFO] Looking for project directories...")
+    print()
 
     project_dirs = get_dir_paths(repo_dir)
     if len(project_dirs) == 0:
@@ -247,6 +259,12 @@ def check_repo_structure(repo_dir):
                     print("[INFO] Found metadata directory {} in project directory {}".format(metadata_dir, project_dir))
             print()
 
+    user_reponse = ask_user("Is this the correct set of directories?")
+    if user_reponse == False:
+       print("[Abort] Please check the directory structure and try again.")
+       exit(1)
+    else:
+       print("[INFO] Ok, continuing...")
 
 def run_session(dir_path):
 
