@@ -380,13 +380,13 @@ def run_session(dir_path):
 if __name__=="__main__":
    
     parser = ArgumentParser(prog='bc_to_as.py', description='Import Brunnhilde-generated metadata into ArchivesSpace')
-    parser.add_argument('repository-directory', action='store', help="Top level local directory corresponding to the remote repository structure")
+    parser.add_argument('repodir', action='store', help="Top level local directory corresponding to the remote repository structure")
     args = parser.parse_args()
 
-    if os.path.isdir(args.repository-directory):
-       repo_dir = args.repository-directory
-       run_session(repo-dir)
+    if os.path.isdir(args.repodir):
+       repodir = args.repodir
+       run_session(repodir)
     else:
-       print("The directory {} does not exist. Check the path and directory name and try again.".format(args.repository-directory))
+       print("The directory {} does not exist. Check the path and directory name and try again.".format(args.repodir))
 
     exit(1)
