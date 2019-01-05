@@ -387,5 +387,12 @@ if __name__=="__main__":
         repo_dir = args.repo
         run_session(args.repo)
     else:
-        print("You must specify a local directory corresponding to the top level repository.")
+        print("You did not specify a local directory corresponding to a repository structure using the --repo flag. Please enter a fully qualitfied path now:")
+
+        if sys.version_info[0] < 3:
+            repo_dir = raw_input('Path: ')
+        else:
+            repo_dir = input('Path: ')
+        run_session(repo_dir)
+
     exit(1)
