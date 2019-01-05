@@ -12,10 +12,10 @@
 # the import.
 # 
 
-from pathlib import Path
+import os, sys
 import getpass
 import datetime
-import sys
+from pathlib import Path
 
 try:
     from argparse import ArgumentParser
