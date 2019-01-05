@@ -383,10 +383,10 @@ if __name__=="__main__":
     parser.add_argument('repository-directory', action='store', help="Top level local directory corresponding to the remote repository structure")
     args = parser.parse_args()
 
-    if os.path.isdir(repository-directory):
-       repo_dir = args.repo
-       run_session(args.repo)
+    if os.path.isdir(args.repository-directory):
+       repo_dir = args.repository-directory
+       run_session(repo-dir)
     else:
-       print("The directory {} does not exist. Check the path and directory name and try again.".format(repository-directory))
+       print("The directory {} does not exist. Check the path and directory name and try again.".format(args.repository-directory))
 
     exit(1)
