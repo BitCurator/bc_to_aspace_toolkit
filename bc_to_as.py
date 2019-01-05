@@ -12,10 +12,15 @@
 # the import.
 # 
 
-from pathlib import Path
+import os, sys
 import getpass
 import datetime
-import sys
+from pathlib import Path
+
+try:
+    from argparse import ArgumentParser
+except ImportError:
+    raise ImportError("This script requires ArgumentParser (Python 2.7/3.x)")
 
 
 def get_dir_names(dir_path, exclude=['__pycache__', 'json_templates']):
@@ -36,6 +41,27 @@ def get_dir_names(dir_path, exclude=['__pycache__', 'json_templates']):
             path = dir_path + '/' + dir
             if len(os.listdir(path)) > 0:
                 results.append(dir)
+    return results
+
+
+def get_dir_paths(dir_path, exclude=['__pycache__', 'json_templates']):
+    """
+    Get paths of the first-level folders existed in a given folder
+
+    Args:
+        dir_path (str): the path of the given folders;
+        exclude (array): the folders don't want to be retrieved;
+    Returns:
+        type: folder paths (array).
+    """
+    import os
+    dir_names = [dirs for root, dirs, files in os.walk(dir_path)][0]
+    results = []
+    for dir in dir_names:
+        if dir not in exclude:
+            path = dir_path + '/' + dir
+            if len(os.listdir(path)) > 0:
+                results.append(path)
     return results
 
 
@@ -199,101 +225,116 @@ def get_repository_uri(repo_code, session_id, host):
             repository_uri = repository['uri']
     return repository_uri
 
-
-if sys.version_info[0] < 3:
-    host = raw_input('ASpace backend URL: ')
-    username = raw_input('Username: ')
-    password = getpass.getpass(prompt='Password: ')
-    created_by = raw_input('Created by: ')
-else:
-    host = input('ASpace backend URL: ')
-    username = input('Username: ')
-    password = getpass.getpass(prompt='Password: ')
-    created_by = input('Created by: ')
-
-
-# Get the path of home diretory
-dir_path = sys.argv[1]
-
-# retrieve session id
-try:
-    session_id = get_sessionId(host, username, password)
-    print("Connected to ASpace backend!")
-except:
-    sys.exit("Oops! the username or password was incorrect.  Try again...")
-
-# For each repository folder in the home diretory (dir_path)
-#     Search for a repository using the name of the repository folder;
-#     If this repository does not exist, create one using
-#         the name of this repository folder as a repo_code.
-for repository_folder in get_dir_names(dir_path):
-    repository_uri = get_repository_uri(repository_folder, session_id, host)
-
-    if repository_uri == '':
-        repository = create_json_file('create_repositories', dir_path)
-        repository['create_time'] = datetime.datetime.now().strftime(
-            '%Y-%m-%d')
-        repository['created_by'] = created_by
-        repository['name'] = repository_folder
-        repository['repo_code'] = repository_folder
-        repository['system_mtime'] = datetime.datetime.now().strftime(
-            '%Y-%m-%dT%H:%M:%SZ')
-        repository_uri = call_archivesspace_api(
-            host, session_id, 'post', '/repositories', repository)['uri']
-
-    # Find the path of the preject folders in the repository folder.
-    project_folder_paths = dir_path + '/' + repository_folder
-
-    # For each project folder in the repository folder:
-    #     Search for a parent archive object using the name of the project folder;
-    #     If this parent archival object does not exist, create one using
-    #         the name of the project folder as a ref_id.
-    #     If this parent archival object exists, but its resouce is missing, create
-    #     a new resource.
-    for project_folder in get_dir_names(project_folder_paths):
-        ref_id_parent = project_folder
-
-        parent_archival_object = get_archival_object(
-            ref_id_parent, repository_uri, session_id, host)
-
-        if parent_archival_object != '':
-            parent_resource_uri = parent_archival_object['resource']['ref']
-            parent_archival_object_uri = parent_archival_object['uri']
+def ask_user(question):
+    while "Please enter y or n":
+        if sys.version_info[0] < 3:
+            reply = str(raw_input(question+' (y/n): ')).lower().strip()
         else:
-            parent_resource_uri = ''
-            parent_archival_object_uri = ''
+            reply = str(input(question+' (y/n): ')).lower().strip()
+        if reply[:1] == 'y':
+            return True
+        if reply[:1] == 'n':
+            return False
 
-        if parent_archival_object_uri == '':
-            parent_resource = create_json_file('create_resources', dir_path)
-            parent_resource['id_0'] = project_folder
-            parent_resource['dates'][0]['begin'] = datetime.datetime.now().strftime(
-                '%Y-%m-%d')
-            parent_resource['dates'][0]['end'] = datetime.datetime.now().strftime(
-                '%Y-%m-%d')
-            parent_resource['extents'][0]['number'] = 'Unknown'
-            parent_resource['notes'] = []
-            parent_resource['level'] = 'file'
-            parent_resource['title'] = project_folder
-            resource_api = repository_uri + '/resources'
-            parent_resource_uri = call_archivesspace_api(
-                host, session_id, 'post', resource_api, parent_resource)['uri']
+def check_repo_structure(repo_dir):
 
-            parent_object = create_json_file(
-                'create_archival_objects', dir_path)
-            parent_object['title'] = project_folder
-            parent_object['level'] = 'file'
-            parent_object['ref_id'] = project_folder
-            parent_object['resource']['ref'] = parent_resource_uri
-            parent_object['dates'] = []
-            parent_object['extents'] = []
-            parent_object['notes'] = []
-            parent_object_api = repository_uri + '/archival_objects'
-            parent_archival_object_uri = call_archivesspace_api(
-                host, session_id, 'post', parent_object_api, parent_object)['uri']
+    print()
+    print("[INFO] Found repository structure directory {}".format(repo_dir))
+    print("[INFO] Looking for project directories...")
+    print()
+
+    project_dirs = get_dir_paths(repo_dir)
+    if len(project_dirs) == 0:
+        print("[ABORT] No project directories found!")
+        exit(1)
+    else:
+        for project_dir in project_dirs:
+            print("[INFO] - Found project directory {}".format(project_dir))
+            metadata_dirs = get_dir_paths(project_dir)
+            if len(metadata_dirs) == 0:
+                print("[ABORT] No metadata directories found in project directory {}!".format(project_dir))
+                exit(1)
+            else:
+                for metadata_dir in metadata_dirs:
+                    print("[INFO] -- with metadata directory {}".format(metadata_dir))
+            print()
+
+    user_response = ask_user("Is this the correct set of directories?")
+    if user_response == False:
+       print("[ABORT] Please check the directory structure and try again.")
+       exit(1)
+    else:
+       print("[INFO] Ok, continuing...")
+       print()
+
+def run_session(dir_path):
+
+    if sys.version_info[0] < 3:
+        host = raw_input('ArchivesSpace backend URL: ')
+        username = raw_input('Username: ')
+        password = getpass.getpass(prompt='Password: ')
+        created_by = raw_input('Created by: ')
+    else:
+        host = input('ArchivesSpace backend URL: ')
+        username = input('Username: ')
+        password = getpass.getpass(prompt='Password: ')
+        created_by = input('Created by: ')
+
+    # retrieve session id
+    try:
+        session_id = get_sessionId(host, username, password)
+        print("Connected to ArchivesSpace backend!")
+    except:
+        user_response = ask_user("Username, password, or URL was incorrect.  Try again?")
+        if user_response == False:
+            print("[ABORT] Quitting...")
+            exit(1)
         else:
-            if parent_resource_uri == '':
-                parent_resource = create_json_file(
-                    'create_resources', dir_path)
+            return run_session(dir_path)
+
+    # For each repository folder in the home diretory (dir_path)
+    #     Search for a repository using the name of the repository folder;
+    #     If this repository does not exist, create one using
+    #         the name of this repository folder as a repo_code.
+    for repository_folder in get_dir_names(dir_path):
+        repository_uri = get_repository_uri(repository_folder, session_id, host)
+
+        if repository_uri == '':
+            repository = create_json_file('create_repositories', dir_path)
+            repository['create_time'] = datetime.datetime.now().strftime(
+                '%Y-%m-%d')
+            repository['created_by'] = created_by
+            repository['name'] = repository_folder
+            repository['repo_code'] = repository_folder
+            repository['system_mtime'] = datetime.datetime.now().strftime(
+                '%Y-%m-%dT%H:%M:%SZ')
+            repository_uri = call_archivesspace_api(
+                host, session_id, 'post', '/repositories', repository)['uri']
+
+        # Find the path of the preject folders in the repository folder.
+        project_folder_paths = dir_path + '/' + repository_folder
+
+        # For each project folder in the repository folder:
+        #     Search for a parent archive object using the name of the project folder;
+        #     If this parent archival object does not exist, create one using
+        #         the name of the project folder as a ref_id.
+        #     If this parent archival object exists, but its resouce is missing, create
+        #     a new resource.
+        for project_folder in get_dir_names(project_folder_paths):
+            ref_id_parent = project_folder
+
+            parent_archival_object = get_archival_object(
+                ref_id_parent, repository_uri, session_id, host)
+
+            if parent_archival_object != '':
+                parent_resource_uri = parent_archival_object['resource']['ref']
+                parent_archival_object_uri = parent_archival_object['uri']
+            else:
+                parent_resource_uri = ''
+                parent_archival_object_uri = ''
+
+            if parent_archival_object_uri == '':
+                parent_resource = create_json_file('create_resources', dir_path)
                 parent_resource['id_0'] = project_folder
                 parent_resource['dates'][0]['begin'] = datetime.datetime.now().strftime(
                     '%Y-%m-%d')
@@ -307,66 +348,115 @@ for repository_folder in get_dir_names(dir_path):
                 parent_resource_uri = call_archivesspace_api(
                     host, session_id, 'post', resource_api, parent_resource)['uri']
 
-        # Find the path of the files in the project folder
-        file_folder_path = project_folder_paths + '/' + project_folder
-
-        # For all the files in the project folder:
-        #     Create a child archival object in ArchivesSpace
-        #         using the combination of the project folder's name and
-        #         the file's name as a ref_id.
-        for file in get_dir_names(file_folder_path):
-            # extract file name
-            file_name = file.split("_")[0]
-            # Find the path of each file
-            file_path = file_folder_path + '/' + file
-
-            # load datasets
-            formats = load_dataset('formats', file_path)
-            siegfried = load_dataset('siegfried', file_path)
-            # extract date
-            end_date = extract_date(max(siegfried['modified']))
-            begin_date = extract_date(min(siegfried['modified']))
-            # Get total file sizes
-            total_file_size = siegfried['filesize'].sum()
-
-            # Create notes to document the counts of all the file types
-            #     identified in the _format_ file
-            n_formats = formats.shape[0]
-
-            note_detail = []
-            for i in range(n_formats):
-                note_detail.append(
-                    "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
-
-            child_archival_object = create_json_file(
-                'create_child_archival_objects', dir_path)
-            child_archival_object['children'][0]['dates'][0]['begin'] = begin_date.strftime(
-                '%Y-%m-%d')
-            child_archival_object['children'][0]['dates'][0]['end'] = end_date.strftime(
-                '%Y-%m-%d')
-            child_archival_object['children'][0]['dates'][0]['label'] = "modified"
-            child_archival_object['children'][0]['level'] = 'file'
-            child_archival_object['children'][0]['title'] = file_name
-            child_archival_object['children'][0]['ref_id'] = project_folder + \
-                '_' + file_name
-            child_archival_object['children'][0]['notes'][0]['content'] = note_detail
-            child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
-            child_archival_object['children'][0]['extents'][0]['number'] = str(
-                total_file_size)
-            child_archival_object['children'][0]['resource']['ref'] = parent_resource_uri
-
-            if begin_date.strftime('%Y-%m') > end_date.strftime('%Y-%m'):
-                child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
-                    '%Y-%m') + '-' + end_date.strftime('%Y-%m')
+                parent_object = create_json_file(
+                    'create_archival_objects', dir_path)
+                parent_object['title'] = project_folder
+                parent_object['level'] = 'file'
+                parent_object['ref_id'] = project_folder
+                parent_object['resource']['ref'] = parent_resource_uri
+                parent_object['dates'] = []
+                parent_object['extents'] = []
+                parent_object['notes'] = []
+                parent_object_api = repository_uri + '/archival_objects'
+                parent_archival_object_uri = call_archivesspace_api(
+                    host, session_id, 'post', parent_object_api, parent_object)['uri']
             else:
-                child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
-                    '%Y')
+                if parent_resource_uri == '':
+                    parent_resource = create_json_file(
+                        'create_resources', dir_path)
+                    parent_resource['id_0'] = project_folder
+                    parent_resource['dates'][0]['begin'] = datetime.datetime.now().strftime(
+                        '%Y-%m-%d')
+                    parent_resource['dates'][0]['end'] = datetime.datetime.now().strftime(
+                        '%Y-%m-%d')
+                    parent_resource['extents'][0]['number'] = 'Unknown'
+                    parent_resource['notes'] = []
+                    parent_resource['level'] = 'file'
+                    parent_resource['title'] = project_folder
+                    resource_api = repository_uri + '/resources'
+                    parent_resource_uri = call_archivesspace_api(
+                        host, session_id, 'post', resource_api, parent_resource)['uri']
 
-            child_archival_object_api = parent_archival_object_uri + '/children'
+            # Find the path of the files in the project folder
+            file_folder_path = project_folder_paths + '/' + project_folder
 
-            info = call_archivesspace_api(
-                host, session_id, 'post', child_archival_object_api, child_archival_object)
-            print('status of ' + file_name + ":")
-            print(info)
+            # For all the files in the project folder:
+            #     Create a child archival object in ArchivesSpace
+            #         using the combination of the project folder's name and
+            #         the file's name as a ref_id.
+            for file in get_dir_names(file_folder_path):
+                # extract file name
+                file_name = file.split("_")[0]
+                # Find the path of each file
+                file_path = file_folder_path + '/' + file
 
-print('Completed!')
+                # load datasets
+                formats = load_dataset('formats', file_path)
+                siegfried = load_dataset('siegfried', file_path)
+                # extract date
+                end_date = extract_date(max(siegfried['modified']))
+                begin_date = extract_date(min(siegfried['modified']))
+                # Get total file sizes
+                total_file_size = siegfried['filesize'].sum()
+
+                # Create notes to document the counts of all the file types
+                #     identified in the _format_ file
+                n_formats = formats.shape[0]
+
+                note_detail = []
+                for i in range(n_formats):
+                    note_detail.append(
+                        "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
+
+                child_archival_object = create_json_file(
+                    'create_child_archival_objects', dir_path)
+                child_archival_object['children'][0]['dates'][0]['begin'] = begin_date.strftime(
+                    '%Y-%m-%d')
+                child_archival_object['children'][0]['dates'][0]['end'] = end_date.strftime(
+                    '%Y-%m-%d')
+                child_archival_object['children'][0]['dates'][0]['label'] = "modified"
+                child_archival_object['children'][0]['level'] = 'file'
+                child_archival_object['children'][0]['title'] = file_name
+                child_archival_object['children'][0]['ref_id'] = project_folder + \
+                    '_' + file_name
+                child_archival_object['children'][0]['notes'][0]['content'] = note_detail
+                child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
+                child_archival_object['children'][0]['extents'][0]['number'] = str(
+                    total_file_size)
+                child_archival_object['children'][0]['resource']['ref'] = parent_resource_uri
+
+                if begin_date.strftime('%Y-%m') > end_date.strftime('%Y-%m'):
+                    child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
+                        '%Y-%m') + '-' + end_date.strftime('%Y-%m')
+                else:
+                    child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
+                        '%Y')
+
+                child_archival_object_api = parent_archival_object_uri + '/children'
+
+                info = call_archivesspace_api(
+                    host, session_id, 'post', child_archival_object_api, child_archival_object)
+                print('status of ' + file_name + ":")
+                print(info)
+
+    print('Completed!')
+
+
+if __name__=="__main__":
+   
+    parser = ArgumentParser(prog='bc_to_as.py', description='Import Brunnhilde-generated metadata into ArchivesSpace')
+    parser.add_argument('repodir', action='store', help="Top level local directory corresponding to the remote repository structure")
+    args = parser.parse_args()
+
+    if os.path.isdir(args.repodir):
+       repo_dir = args.repodir
+
+       # Check the structure of the local directory.
+       check_repo_structure(repo_dir)
+
+       # Proceed and connect to backend.
+       run_session(repo_dir)
+
+    else:
+       print("[ABORT] The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
+
