@@ -210,12 +210,12 @@ def get_repository_uri(repo_code, session_id, host):
 def run_session(dir_path):
 
     if sys.version_info[0] < 3:
-        host = raw_input('ASpace backend URL: ')
+        host = raw_input('ArchivesSpace backend URL: ')
         username = raw_input('Username: ')
         password = getpass.getpass(prompt='Password: ')
         created_by = raw_input('Created by: ')
     else:
-        host = input('ASpace backend URL: ')
+        host = input('ArchivesSpace backend URL: ')
         username = input('Username: ')
         password = getpass.getpass(prompt='Password: ')
         created_by = input('Created by: ')
@@ -223,7 +223,7 @@ def run_session(dir_path):
     # retrieve session id
     try:
         session_id = get_sessionId(host, username, password)
-        print("Connected to ASpace backend!")
+        print("Connected to ArchivesSpace backend!")
     except:
         sys.exit("Oops! the username or password was incorrect.  Try again...")
 
@@ -380,19 +380,13 @@ def run_session(dir_path):
 if __name__=="__main__":
    
     parser = ArgumentParser(prog='bc_to_as.py', description='Import Brunnhilde-generated metadata into ArchivesSpace')
-    parser.add_argument('--repo', action='store', help="Top level local directory corresponding to repository structure")
+    parser.add_argument('repository-directory', action='store', help="Top level local directory corresponding to the remote repository structure")
     args = parser.parse_args()
 
-    if args.repo:
-        repo_dir = args.repo
-        run_session(args.repo)
+    if os.path.isdir(repository-directory):
+       repo_dir = args.repo
+       run_session(args.repo)
     else:
-        print("You did not specify a local directory corresponding to a repository structure using the --repo flag. Please enter a fully qualitfied path now:")
-
-        if sys.version_info[0] < 3:
-            repo_dir = raw_input('Path: ')
-        else:
-            repo_dir = input('Path: ')
-        run_session(repo_dir)
+       print("The directory {} does not exist. Check the path and directory name and try again.".format(repository-directory))
 
     exit(1)
