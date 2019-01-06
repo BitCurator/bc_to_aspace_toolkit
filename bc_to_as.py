@@ -62,10 +62,9 @@ def create_json_file(template_name):
 
     import json
 
-    print("  [INFO] Getting template stream for {}".format(template_name + '.json'))
     template_stream = utilities.get_json_template(template_name + '.json')
     template = json.load(template_stream)
-    print("  [INFO] Successfully created template {}".format(template_name))
+    print("  [INFO] Loaded template stream for {}".format(template_name + '.json'))
 
     return template
 
@@ -86,6 +85,7 @@ def load_dataset(file_name, dir_path):
     dataset_path = dir_path + '/' + file_name + '.csv'
     if os.path.isfile(dataset_path):
         dataset = pd.read_csv(dataset_path)
+        print("  [INFO] Read dataset at {}".format(dataset_path))
         return dataset
 
 
@@ -266,6 +266,7 @@ def run_session(dir_path):
     #     If this parent archival object exists, but its resouce is missing, create
     #     a new resource.
     for project_folder in get_dir_names(dir_path):
+        print("  [INFO] Processing project folder {}".format(project_folder))
         ref_id_parent = project_folder
 
         parent_archival_object = get_archival_object(
@@ -322,14 +323,17 @@ def run_session(dir_path):
 
         # Find the path of the files in the project folder
         file_folder_path = dir_path + '/' + project_folder
+        print("  [INFO] Entering project folder path {}".format(file_folder_path))
 
         # For all the files in the project folder:
         #     Create a child archival object in ArchivesSpace
         #         using the combination of the project folder's name and
         #         the file's name as a ref_id.
         for file in get_dir_names(file_folder_path):
+            print("  [INFO] Found dataset directory {}".format(file))
             # extract file name
             file_name = file.split("_")[0]
+            print("  [INFO] Using reference ID {}".format(file_name))
             # Find the path of each file
             file_path = file_folder_path + '/' + file
 
