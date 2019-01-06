@@ -117,7 +117,7 @@ bcadmin@ubuntu:~$ bc_to_as.py /home/bcadmin/test_repository/
 Is this the correct set of directories? [y/N]: y
   [INFO] Ok, continuing...
 
-ArchivesSpace backend URL: http://azalea.ils.unc.edu:8089
+ArchivesSpace backend URL: http://server.url.here:8089
 Username: admin
 Password: 
 Created by: admin
