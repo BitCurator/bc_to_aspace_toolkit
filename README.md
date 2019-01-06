@@ -29,11 +29,11 @@ A simple example with the included sample disk image is provided here.
 
 This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace_vagrant.
 
-Ensure you're in the bc_to_aspace_toolkit directory, then copy the provided sample image to your home directory:
+Ensure you're in the **bc_to_aspace_toolkit** directory, then copy the provided sample image to your home directory:
 
 ```shell
 bcadmin@ubuntu:~$ cd ~/bc_to_aspace_toolkit
-bcadmin@ubuntu:~$ cp sample-disk-images/nps-2010-emails.E01 ~/
+bcadmin@ubuntu:~$ cp sample_disk_images/nps-2010-emails.E01 ~/
 ```
 
 The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, to extract files from disk images. The **tsk_recover** tool will make a best effort to autodetect disk image type, file system type, and partition offset, but this does not always work. We know this is likely an Expert Witness (E01) file from the file extension, and we can use the **mmls** tool to find the remaining information:
@@ -74,70 +74,68 @@ errors.csv      formatVersions.csv  unidentified.csv  years.csv
 
 We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that matches our repository, project, and dataset information. For this example, we will assume our ArchivesSpace instance is **clean** and contains no existing repositories.
 
-First, move back to the home directory and create a **repositories** folder:
+First, return to your home directory and create a folder corresponding to a repository name. For this simple example, we'll call it **test_repository**:
 
 ```shell
 bcadmin@ubuntu:~$ cd ~/
-bcadmin@ubuntu:~$ mkdir repositories
+bcadmin@ubuntu:~$ mkdir test_repository
 ```
 
-The **bc_to_as.py** script needs access to some JSON templates that are included in this GitHub repo. Copy that folder into the repositories directory so the installed script will know where to find it:
+Now, create a project directory inside the repository directory. Repository directories can contain more than one project.
 
 ```shell
-bcadmin@ubuntu:~$ cp -r ~/bc_to_aspace_toolkit/json_templates repositories
-```
-
-Now, create folder corresponding to a new repository:
-
-```shell
-bcadmin@ubuntu:~$ cd ~/repositories
-bcadmin@ubuntu:~/repositories$ mkdir ossarcflow_repository
-```
-
-Now, make a new project directory inside the repository directory. Repository directories can contain more than one project.
-
-```shell
-bcadmin@ubuntu:~/repositories$ cd ossarcflow_repository/
-bcadmin@ubuntu:~/repositories/ossarcflow_repository$ mkdir project1
+bcadmin@ubuntu:~$ cd test_repository/
+bcadmin@ubuntu:~/test_repository$ mkdir project1
 ```
 
 Now, change into the project directory and make a directory corresponding to our dataset (we'll copy the CSV files we created earlier into this directory next):
 
 ```shell
-bcadmin@ubuntu:~/repositories/ossarcflow_repository$ cd project1/
-bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ mkdir SET1_brunnout
+bcadmin@ubuntu:~/test_repository$ cd project1/
+bcadmin@ubuntu:~/test_repository/project1$ mkdir SET1_brunnout
 ```
 
 Now copy the relevant CSV files over (note that formats.csv and siegfried.csv have different source locations):
 
 ```shell
-bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/csv_reports/formats.csv SET1_brunnout/
-bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
+bcadmin@ubuntu:~/test_repository/project1$ cp ~/brunnhilde-reports/csv_reports/formats.csv SET1_brunnout/
+bcadmin@ubuntu:~/test_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
 ```
 
-Finally, change directory so you are in the **repositories** directory, and run the **bc_to_as.py** script. You will need to authenticate with a user that has permissions to create and modify repositories and their contents on ArchivesSpace. For this simple example, we'll use the default **admin** user (the default admin password for ArchivesSpace is also **admin**; the password is not shown below, but must be typed in):
+Finally, we'll run the **bc_to_as.py** script, passing it the location of our repository as an argument. When the script runs, you will see several prompts to confirm the location and structure of the repository directory. Then you will need to authenticate with a user that has permissions to create and modify repositories and their contents on ArchivesSpace. For this simple example, we'll use the default **admin** user (the default admin password for ArchivesSpace is also **admin**; the password is not shown below, but must be typed in):
 
 ```shell
-bcadmin@ubuntu:~/repositories/ossarcflow_repository/project1$ cd ~/repositories 
-bcadmin@ubuntu:~/repositories$ bc_to_as.py 
-ASpace backend URL: http://azalea.ils.unc.edu:8089
-Username: admin	
+bcadmin@ubuntu:~/test_repository/project1$ cd ~/
+bcadmin@ubuntu:~$ bc_to_as.py /home/bcadmin/test_repository
+
+[INFO] Found repository structure directory /home/bcadmin/test_repository
+[INFO] Looking for project directories...
+
+[INFO] - Found project directory /home/bcadmin/test_repository/project1
+[INFO] -- with metadata directory /home/bcadmin/test_repository/project1/SET1_brunnout
+
+Is this the correct set of directories? (y/n): y
+[INFO] Ok, continuing...
+
+ArchivesSpace backend URL: http://server.location.here:8089
+Username: admin
 Password: 
 Created by: admin
-Connected to ASpace backend!
-status of SET1:
+Connected to ArchivesSpace backend!
+[INFO] Getting template stream for create_repositories.json
+[INFO] Successfully created template create_repositories
+[INFO] Getting template stream for create_resources.json
+[INFO] Successfully created template create_resources
+[INFO] Getting template stream for create_archival_objects.json
+[INFO] Successfully created template create_archival_objects
+[INFO] Getting template stream for create_child_archival_objects.json
+[INFO] Successfully created template create_child_archival_objects
+[STATUS] Processing result for SET1:
 {'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
 Completed!
 ```
 
 You should now see the unpublished **ossarcflow_repository** listed in your ArchivesSpace console (assuming you are logged in). 
-
-## What's in this repository
-
-- **json_templates**: JSON templates for the relevant metadata to be created / transfered
-- **repository-and-project-samples**: Small sample data sets using Brunnhilde output for an existing disk image (not included)
-- **sample-disk-images**: One or more sample disk images referenced in this document
-- **bc_to_as.py**: Script to create and transfer the relevant objects via the ASpace API
 
 ## Documentation, help, and other information
 
