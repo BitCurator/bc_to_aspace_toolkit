@@ -62,10 +62,10 @@ def create_json_file(template_name):
 
     import json
 
-    print("[INFO] Getting template stream for {}".format(template_name + '.json'))
+    print("  [INFO] Getting template stream for {}".format(template_name + '.json'))
     template_stream = utilities.get_json_template(template_name + '.json')
     template = json.load(template_stream)
-    print("[INFO] Successfully created template {}".format(template_name))
+    print("  [INFO] Successfully created template {}".format(template_name))
 
     return template
 
@@ -159,7 +159,7 @@ def call_archivesspace_api(host, session_id, action, api, data=""):
         result = requests.get(url, headers=headers).json()
         return result
     else:
-        print('Please specify API action: "post" or "get"')
+        print('  Please specify API action: "post" or "get"')
 
 
 def get_archival_object(ref_id, repository_uri, session_id, host):
@@ -229,11 +229,11 @@ def run_session(dir_path):
     # retrieve session id
     try:
         session_id = get_sessionId(host, username, password)
-        print("Connected to ArchivesSpace backend!")
+        print("  Connected to ArchivesSpace backend!")
     except:
         user_response = utilities.ask_user("Username, password, or URL was incorrect.  Try again?")
         if user_response == False:
-            print("[ABORT] Quitting...")
+            print("  [ABORT] Quitting...")
             exit(1)
         else:
             return run_session(dir_path)
@@ -378,10 +378,10 @@ def run_session(dir_path):
 
             info = call_archivesspace_api(
                 host, session_id, 'post', child_archival_object_api, child_archival_object)
-            print('[STATUS] Processing result for ' + file_name + ":")
-            print(info)
+            print('  [STATUS] Processing result for ' + file_name + ":")
+            print(' ' + info)
 
-    print('Completed!')
+    print('  Completed!')
 
 
 if __name__=="__main__":
@@ -400,5 +400,5 @@ if __name__=="__main__":
        run_session(repo_dir)
 
     else:
-       print("[ABORT] The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
+       print("  [ABORT] The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
 

@@ -46,32 +46,32 @@ def get_dir_paths(dir_path, exclude=['__pycache__']):
 
 def check_repo_structure(repo_dir):
     print()
-    print("[INFO] Found repository structure directory {}".format(repo_dir))
-    print("[INFO] Looking for project directories...")
+    print("  [INFO] Found repository structure directory {}".format(repo_dir))
+    print("  [INFO] Looking for project directories...")
     print()
 
     project_dirs = get_dir_paths(repo_dir)
     if len(project_dirs) == 0:
-        print("[ABORT] No project directories found!")
+        print("  [ABORT] No project directories found!")
         exit(1)
     else:
         for project_dir in project_dirs:
-            print("[INFO] - Found project directory {}".format(project_dir))
+            print("  [INFO] - Found project directory {}".format(project_dir))
             metadata_dirs = get_dir_paths(project_dir)
             if len(metadata_dirs) == 0:
-                print("[ABORT] No metadata directories found in project directory {}!".format(project_dir))
+                print("  [ABORT] No metadata directories found in project directory {}!".format(project_dir))
                 exit(1)
             else:
                 for metadata_dir in metadata_dirs:
-                    print("[INFO] -- with metadata directory {}".format(metadata_dir))
+                    print("  [INFO] -- with metadata directory {}".format(metadata_dir))
             print()
 
     user_response = ask_user("Is this the correct set of directories?")
     if user_response == False:
-       print("[ABORT] Please check the directory structure and try again.")
+       print("  [ABORT] Please check the directory structure and try again.")
        exit(1)
     else:
-       print("[INFO] Ok, continuing...")
+       print("  [INFO] Ok, continuing...")
        print()
 
 
