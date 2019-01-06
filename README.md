@@ -88,14 +88,14 @@ bcadmin@ubuntu:~$ cd test_repository/
 bcadmin@ubuntu:~/test_repository$ mkdir project1
 ```
 
-Now, change into the project directory and make a directory corresponding to our dataset (we'll copy the CSV files we created earlier into this directory next):
+Now, change into the project directory and make a directory corresponding to our dataset (we'll copy the CSV files we created earlier into this directory next). Name this dataset **SET1_brunnout**. The portion of the name preceding the underscore (**SET1**) will be used as the reference ID when calling the ArchivesSpace API:
 
 ```shell
 bcadmin@ubuntu:~/test_repository$ cd project1/
 bcadmin@ubuntu:~/test_repository/project1$ mkdir SET1_brunnout
 ```
 
-Now copy the relevant CSV files over (note that formats.csv and siegfried.csv have different source locations):
+Now copy the relevant CSV files over (note that **formats.csv** and **siegfried.csv** have different source locations):
 
 ```shell
 bcadmin@ubuntu:~/test_repository/project1$ cp ~/brunnhilde-reports/csv_reports/formats.csv SET1_brunnout/
@@ -106,7 +106,7 @@ Finally, we'll run the **bc_to_as.py** script, passing it the location of our re
 
 ```shell
 bcadmin@ubuntu:~/test_repository/project1$ cd ~/
-bcadmin@ubuntu:~$ bc_to_as.py /home/bcadmin/test_repository
+bcadmin@ubuntu:~$ bc_to_as.py /home/bcadmin/test_repository/
 
   [INFO] Found repository structure directory /home/bcadmin/test_repository
   [INFO] Looking for project directories...
@@ -114,24 +114,26 @@ bcadmin@ubuntu:~$ bc_to_as.py /home/bcadmin/test_repository
   [INFO] - Found project directory /home/bcadmin/test_repository/project1
   [INFO] -- with metadata directory /home/bcadmin/test_repository/project1/SET1_brunnout
 
-Is this the correct set of directories? (y/n): y
+Is this the correct set of directories? [y/N]: y
   [INFO] Ok, continuing...
 
-ArchivesSpace backend URL: http://server.location.here:8089
+ArchivesSpace backend URL: http://azalea.ils.unc.edu:8089
 Username: admin
 Password: 
 Created by: admin
-Connected to ArchivesSpace backend!
-  [INFO] Getting template stream for create_repositories.json
-  [INFO] Successfully created template create_repositories
-  [INFO] Getting template stream for create_resources.json
-  [INFO] Successfully created template create_resources
-  [INFO] Getting template stream for create_archival_objects.json
-  [INFO] Successfully created template create_archival_objects
-  [INFO] Getting template stream for create_child_archival_objects.json
-  [INFO] Successfully created template create_child_archival_objects
+  Connected to ArchivesSpace backend!
+  [INFO] Loaded template stream for create_repositories.json
+  [INFO] Processing project folder project1
+  [INFO] Loaded template stream for create_resources.json
+  [INFO] Loaded template stream for create_archival_objects.json
+  [INFO] Entering project folder path /home/bcadmin/test_repository/project1
+  [INFO] Found dataset directory SET1_brunnout
+  [INFO] Using reference ID SET1
+  [INFO] Read dataset at /home/bcadmin/test_repository/project1/SET1_brunnout/formats.csv
+  [INFO] Read dataset at /home/bcadmin/test_repository/project1/SET1_brunnout/siegfried.csv
+  [INFO] Loaded template stream for create_child_archival_objects.json
   [STATUS] Processing result for SET1:
-  {'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
+{'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
   Completed!
 ```
 
