@@ -441,7 +441,7 @@ def run_session(dir_path):
 
             info = call_archivesspace_api(
                 host, session_id, 'post', child_archival_object_api, child_archival_object)
-            print('status of ' + file_name + ":")
+            print('[STATUS] Processing result for ' + file_name + ":")
             print(info)
 
     print('Completed!')
