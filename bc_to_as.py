@@ -233,48 +233,6 @@ def get_repository_uri(repo_code, session_id, host):
             repository_uri = repository['uri']
     return repository_uri
 
-def ask_user(question):
-    while "Please enter y or n":
-        if sys.version_info[0] < 3:
-            reply = str(raw_input(question+' (y/n): ')).lower().strip()
-        else:
-            reply = str(input(question+' (y/n): ')).lower().strip()
-        if reply[:1] == 'y':
-            return True
-        if reply[:1] == 'n':
-            return False
-
-def check_repo_structure(repo_dir):
-
-    print()
-    print("[INFO] Found repository structure directory {}".format(repo_dir))
-    print("[INFO] Looking for project directories...")
-    print()
-
-    project_dirs = get_dir_paths(repo_dir)
-    if len(project_dirs) == 0:
-        print("[ABORT] No project directories found!")
-        exit(1)
-    else:
-        for project_dir in project_dirs:
-            print("[INFO] - Found project directory {}".format(project_dir))
-            metadata_dirs = get_dir_paths(project_dir)
-            if len(metadata_dirs) == 0:
-                print("[ABORT] No metadata directories found in project directory {}!".format(project_dir))
-                exit(1)
-            else:
-                for metadata_dir in metadata_dirs:
-                    print("[INFO] -- with metadata directory {}".format(metadata_dir))
-            print()
-
-    user_response = ask_user("Is this the correct set of directories?")
-    if user_response == False:
-       print("[ABORT] Please check the directory structure and try again.")
-       exit(1)
-    else:
-       print("[INFO] Ok, continuing...")
-       print()
-
 
 def run_session(dir_path):
 
@@ -294,7 +252,7 @@ def run_session(dir_path):
         session_id = get_sessionId(host, username, password)
         print("Connected to ArchivesSpace backend!")
     except:
-        user_response = ask_user("Username, password, or URL was incorrect.  Try again?")
+        user_response = utilities.ask_user("Username, password, or URL was incorrect.  Try again?")
         if user_response == False:
             print("[ABORT] Quitting...")
             exit(1)
@@ -457,7 +415,7 @@ if __name__=="__main__":
        repo_dir = (args.repodir).rstrip("/")
 
        # Check the structure of the local directory.
-       check_repo_structure(repo_dir)
+       utilities.check_repo_structure(repo_dir)
 
        # Proceed and connect to backend.
        run_session(repo_dir)
