@@ -108,31 +108,31 @@ Finally, we'll run the **bc_to_as.py** script, passing it the location of our re
 bcadmin@ubuntu:~/test_repository/project1$ cd ~/
 bcadmin@ubuntu:~$ bc_to_as.py /home/bcadmin/test_repository
 
-[INFO] Found repository structure directory /home/bcadmin/test_repository
-[INFO] Looking for project directories...
+  [INFO] Found repository structure directory /home/bcadmin/test_repository
+  [INFO] Looking for project directories...
 
-[INFO] - Found project directory /home/bcadmin/test_repository/project1
-[INFO] -- with metadata directory /home/bcadmin/test_repository/project1/SET1_brunnout
+  [INFO] - Found project directory /home/bcadmin/test_repository/project1
+  [INFO] -- with metadata directory /home/bcadmin/test_repository/project1/SET1_brunnout
 
 Is this the correct set of directories? (y/n): y
-[INFO] Ok, continuing...
+  [INFO] Ok, continuing...
 
 ArchivesSpace backend URL: http://server.location.here:8089
 Username: admin
 Password: 
 Created by: admin
 Connected to ArchivesSpace backend!
-[INFO] Getting template stream for create_repositories.json
-[INFO] Successfully created template create_repositories
-[INFO] Getting template stream for create_resources.json
-[INFO] Successfully created template create_resources
-[INFO] Getting template stream for create_archival_objects.json
-[INFO] Successfully created template create_archival_objects
-[INFO] Getting template stream for create_child_archival_objects.json
-[INFO] Successfully created template create_child_archival_objects
-[STATUS] Processing result for SET1:
-{'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
-Completed!
+  [INFO] Getting template stream for create_repositories.json
+  [INFO] Successfully created template create_repositories
+  [INFO] Getting template stream for create_resources.json
+  [INFO] Successfully created template create_resources
+  [INFO] Getting template stream for create_archival_objects.json
+  [INFO] Successfully created template create_archival_objects
+  [INFO] Getting template stream for create_child_archival_objects.json
+  [INFO] Successfully created template create_child_archival_objects
+  [STATUS] Processing result for SET1:
+  {'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
+  Completed!
 ```
 
 You should now see the unpublished **ossarcflow_repository** listed in your ArchivesSpace console (assuming you are logged in). 
