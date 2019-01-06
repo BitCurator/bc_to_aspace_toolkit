@@ -3,7 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/issues)
 [![GitHub forks](https://img.shields.io/github/forks/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/network)
 
-Metadata transfer scripts - BitCurator to ASpace
+Metadata transfer tools - BitCurator to ArchivesSpace
 
 ## Setup and Installation
 
