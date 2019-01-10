@@ -23,7 +23,7 @@ bcadmin@ubuntu:~$ python3 setup.py build
 bcadmin@ubuntu:~$ sudo python3 setup.py install
 ```
 
-## Running the script
+## Preparing a sample for transfer
 
 A simple example with the included sample disk image is provided here.
 
@@ -102,7 +102,9 @@ bcadmin@ubuntu:~/test_repository/project1$ cp ~/brunnhilde-reports/csv_reports/f
 bcadmin@ubuntu:~/test_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
 ```
 
-Finally, we'll run the **bc_to_as.py** script, passing it the location of our repository as an argument. When the script runs, you will see several prompts to confirm the location and structure of the repository directory. Then you will need to authenticate with a user that has permissions to create and modify repositories and their contents on ArchivesSpace. For this simple example, we'll use the default **admin** user (the default admin password for ArchivesSpace is also **admin**; the password is not shown below, but must be typed in):
+## Running the script
+
+Finally, run the **bc_to_as.py** script. We'll pass it the location of our local directory structure as an argument. When the script runs, you will see several prompts to confirm the location and structure of local directory corresponding to the named repository. Then you will need to authenticate with a user that has permissions to create and modify repositories and their contents on ArchivesSpace. For this simple example, we'll use the default **admin** user (the default admin password for ArchivesSpace is also **admin**; the password is not shown below, but must be typed in):
 
 ```shell
 bcadmin@ubuntu:~/test_repository/project1$ cd ~/
