@@ -2,15 +2,15 @@
 # coding=UTF-8
 #
 # bc_to_as.py
-# 
-# This code is distributed under the terms of the GNU General Public 
-# License, Version 3. See the text file "COPYING" for further details 
+#
+# This code is distributed under the terms of the GNU General Public
+# License, Version 3. See the text file "COPYING" for further details
 # about the terms of this license.
 #
 # This python script prepares metadata produced by the Brunnhilde tool
 # for import into ArchivesSpace, and uses the ArchivesSpace API to perform
 # the import.
-# 
+#
 
 import os, sys
 import getpass
@@ -288,7 +288,7 @@ def run_session(dir_path):
                 '%Y-%m-%d')
             parent_resource['extents'][0]['number'] = 'Unknown'
             parent_resource['notes'] = []
-            parent_resource['level'] = 'file'
+            parent_resource['level'] = 'files'
             parent_resource['title'] = project_folder
             resource_api = repository_uri + '/resources'
             parent_resource_uri = call_archivesspace_api(
@@ -296,7 +296,7 @@ def run_session(dir_path):
 
             parent_object = create_json_file('create_archival_objects')
             parent_object['title'] = project_folder
-            parent_object['level'] = 'file'
+            parent_object['level'] = 'files'
             parent_object['ref_id'] = project_folder
             parent_object['resource']['ref'] = parent_resource_uri
             parent_object['dates'] = []
@@ -315,7 +315,7 @@ def run_session(dir_path):
                     '%Y-%m-%d')
                 parent_resource['extents'][0]['number'] = 'Unknown'
                 parent_resource['notes'] = []
-                parent_resource['level'] = 'file'
+                parent_resource['level'] = 'files'
                 parent_resource['title'] = project_folder
                 resource_api = repository_uri + '/resources'
                 parent_resource_uri = call_archivesspace_api(
@@ -336,9 +336,10 @@ def run_session(dir_path):
             print("  [INFO] Using reference ID {}".format(file_name))
             # Find the path of each file
             file_path = file_folder_path + '/' + file
+            file_csv_report_path = file_folder_path + '/' + file + '/csv_reports/'
 
             # load datasets
-            formats = load_dataset('formats', file_path)
+            formats = load_dataset('formats', file_csv_report_path)
             siegfried = load_dataset('siegfried', file_path)
             # extract date
             end_date = extract_date(max(siegfried['modified']))
@@ -389,7 +390,7 @@ def run_session(dir_path):
 
 
 if __name__=="__main__":
-   
+
     parser = ArgumentParser(prog='bc_to_as.py', description='Import Brunnhilde-generated metadata into ArchivesSpace')
     parser.add_argument('repodir', action='store', help="Top level local directory corresponding to the remote repository structure")
     args = parser.parse_args()
@@ -405,4 +406,3 @@ if __name__=="__main__":
 
     else:
        print("  [ABORT] The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
-
