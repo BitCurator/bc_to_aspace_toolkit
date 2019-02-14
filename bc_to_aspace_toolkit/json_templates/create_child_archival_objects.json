@@ -8,7 +8,7 @@
       "jsonmodel_type": "extent",
       "portion": "whole",
       "number": null,
-      "extent_type": "megabytes",
+      "extent_type": "bytes",
       "dimensions": null,
       "physical_details": null
     }],
