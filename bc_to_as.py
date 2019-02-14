@@ -213,6 +213,23 @@ def get_repository_uri(repo_code, session_id, host):
     return repository_uri
 
 
+def xmlConvertToJson (file_path):
+    """
+    convert xml to Josn
+    Args:
+        file_path: path of the dfxml(xml) file
+    Returns:
+        json file: reutn the json format of the input file
+    """
+
+    import xmltodict
+    import json
+    with open(file_path, 'r') as f:
+        xmlFile = f.read()
+    jsonFile = json.dumps(xmltodict.parse(xmlFile), indent=4)
+    return json.loads(jsonFile)
+
+
 def run_session(dir_path):
 
     if sys.version_info[0] < 3:
