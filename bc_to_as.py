@@ -103,7 +103,8 @@ def extract_date(time):
     """
     import re, datetime
     match = re.search('\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}', time)
-    date_extracted = datetime.datetime.strptime(match.group(), '%Y-%m-%d %H:%M:%S')
+    date_extracted = datetime.datetime.strptime(match.group(), '%Y-%m-%d %H:%M:%S').strftime(
+                '%Y-%m-%d %H:%M:%S')
     return date_extracted
 
 
@@ -359,7 +360,7 @@ def run_session(dir_path):
 
             with open("fourpartusb1.info") as f:
                 guymager_file = f.readlines()
-            guymager_file = [x.strip() for x in content if x.strip() not in ['']]
+            guymager_file = [x.strip() for x in file if x.strip() not in ['']]
 
             agent = guymager_parser('Examiner             :', guymager_file)
             start_date = guymager_parser('Acquisition started :', guymager_file)
