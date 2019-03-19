@@ -2,17 +2,18 @@
 # coding=UTF-8
 #
 # bc_to_as.py
-# 
-# This code is distributed under the terms of the GNU General Public 
-# License, Version 3. See the text file "COPYING" for further details 
+#
+# This code is distributed under the terms of the GNU General Public
+# License, Version 3. See the text file "COPYING" for further details
 # about the terms of this license.
 #
 # This python script prepares metadata produced by the Brunnhilde tool
 # for import into ArchivesSpace, and uses the ArchivesSpace API to perform
 # the import.
-# 
+#
 
-import os, sys
+import os
+import sys
 import getpass
 import datetime
 from pathlib import Path
@@ -57,14 +58,15 @@ def create_json_file(template_name):
         type: a json file
     """
     #template_path = dir_path + '/json_templates/' + template_name + '.json'
-    #with open(template_path) as f:
+    # with open(template_path) as f:
     #    template = json.load(f)
 
     import json
 
     template_stream = utilities.get_json_template(template_name + '.json')
     template = json.load(template_stream)
-    print("  [INFO] Loaded template stream for {}".format(template_name + '.json'))
+    print("  [INFO] Loaded template stream for {}".format(
+        template_name + '.json'))
 
     return template
 
@@ -99,11 +101,9 @@ def extract_date(time):
     Returns:
         type: extracted date (datetime object)
     """
-    import re
-    import datetime
-    match = re.search('\d{4}-\d{2}-\d{2}', time)
-    date_extracted = datetime.datetime.strptime(
-        match.group(), '%Y-%m-%d').date()
+    import re, datetime
+    match = re.search('\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}', time)
+    date_extracted = datetime.datetime.strptime(match.group(), '%Y-%m-%d %H:%M:%S')
     return date_extracted
 
 
@@ -213,6 +213,25 @@ def get_repository_uri(repo_code, session_id, host):
     return repository_uri
 
 
+def guymager_parser(parameter_name, file):
+    """
+    Extract medtda from guymager file
+
+    Args:
+        parameter_name: the name used to identify metdata
+                            (e.g., "Examiner             :")
+        file: the coverted guymager .info file (list format)
+
+    Returns:
+        string: metadata
+
+    """
+
+    for info in file:
+        if parameter_name in info:
+            return info.replace(parameter_name, '').strip()
+
+
 def run_session(dir_path):
 
     if sys.version_info[0] < 3:
@@ -231,7 +250,8 @@ def run_session(dir_path):
         session_id = get_sessionId(host, username, password)
         print("  Connected to ArchivesSpace backend!")
     except:
-        user_response = utilities.ask_user("Username, password, or URL was incorrect.  Try again?")
+        user_response = utilities.ask_user(
+            "Username, password, or URL was incorrect.  Try again?")
         if user_response == False:
             print("  [ABORT] Quitting...")
             exit(1)
@@ -337,29 +357,37 @@ def run_session(dir_path):
             # Find the path of each file
             file_path = file_folder_path + '/' + file
 
+            with open("fourpartusb1.info") as f:
+                guymager_file = f.readlines()
+            guymager_file = [x.strip() for x in content if x.strip() not in ['']]
+
+            agent = guymager_parser('Examiner             :', guymager_file)
+            start_date = guymager_parser('Acquisition started :', guymager_file)
+            end_date = guymager_parser('Ended               :', guymager_file)
+            state = guymager_parser('State:', guymager_file)
+
             # load datasets
-            formats = load_dataset('formats', file_path)
-            siegfried = load_dataset('siegfried', file_path)
-            # extract date
-            end_date = extract_date(max(siegfried['modified']))
-            begin_date = extract_date(min(siegfried['modified']))
+            # formats = load_dataset('formats', file_path)
+            # siegfried = load_dataset('siegfried', file_path)
+            # # extract date
+            # end_date = extract_date(max(siegfried['modified']))
+            # begin_date = extract_date(min(siegfried['modified']))
             # Get total file sizes
-            total_file_size = siegfried['filesize'].sum()
+            # total_file_size = siegfried['filesize'].sum()
 
             # Create notes to document the counts of all the file types
             #     identified in the _format_ file
-            n_formats = formats.shape[0]
+            # n_formats = formats.shape[0]
 
-            note_detail = []
-            for i in range(n_formats):
-                note_detail.append(
-                    "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
+            note_detail = ["This file is created by " + agent]
+            # for i in range(n_formats):
+            #     note_detail.append(
+            #         "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
 
-            child_archival_object = create_json_file('create_child_archival_objects')
-            child_archival_object['children'][0]['dates'][0]['begin'] = begin_date.strftime(
-                '%Y-%m-%d')
-            child_archival_object['children'][0]['dates'][0]['end'] = end_date.strftime(
-                '%Y-%m-%d')
+            child_archival_object = create_json_file(
+                'create_child_archival_objects')
+            child_archival_object['children'][0]['dates'][0]['begin'] = start_date
+            child_archival_object['children'][0]['dates'][0]['end'] = end_date
             child_archival_object['children'][0]['dates'][0]['label'] = "modified"
             child_archival_object['children'][0]['level'] = 'file'
             child_archival_object['children'][0]['title'] = file_name
@@ -367,16 +395,16 @@ def run_session(dir_path):
                 '_' + file_name
             child_archival_object['children'][0]['notes'][0]['content'] = note_detail
             child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
-            child_archival_object['children'][0]['extents'][0]['number'] = str(
-                total_file_size)
+            # child_archival_object['children'][0]['extents'][0]['number'] = str(
+            #     total_file_size)
             child_archival_object['children'][0]['resource']['ref'] = parent_resource_uri
-
-            if begin_date.strftime('%Y-%m') > end_date.strftime('%Y-%m'):
-                child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
-                    '%Y-%m') + '-' + end_date.strftime('%Y-%m')
-            else:
-                child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
-                    '%Y')
+            #
+            # if begin_date.strftime('%Y-%m') > end_date.strftime('%Y-%m'):
+            #     child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
+            #         '%Y-%m') + '-' + end_date.strftime('%Y-%m')
+            # else:
+            #     child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
+            #         '%Y')
 
             child_archival_object_api = parent_archival_object_uri + '/children'
 
@@ -388,21 +416,22 @@ def run_session(dir_path):
     print('  Completed!')
 
 
-if __name__=="__main__":
-   
-    parser = ArgumentParser(prog='bc_to_as.py', description='Import Brunnhilde-generated metadata into ArchivesSpace')
-    parser.add_argument('repodir', action='store', help="Top level local directory corresponding to the remote repository structure")
+if __name__ == "__main__":
+
+    parser = ArgumentParser(
+        prog='bc_to_as.py', description='Import Brunnhilde-generated metadata into ArchivesSpace')
+    parser.add_argument('repodir', action='store',
+                        help="Top level local directory corresponding to the remote repository structure")
     args = parser.parse_args()
 
     if os.path.isdir(args.repodir):
-       repo_dir = (args.repodir).rstrip("/")
+        repo_dir = (args.repodir).rstrip("/")
 
-       # Check the structure of the local directory.
-       utilities.check_repo_structure(repo_dir)
+        # Check the structure of the local directory.
+        utilities.check_repo_structure(repo_dir)
 
-       # Proceed and connect to backend.
-       run_session(repo_dir)
+        # Proceed and connect to backend.
+        run_session(repo_dir)
 
     else:
-       print("  [ABORT] The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
-
+        print("  [ABORT] The directory {} does not exist. You must use the full path to the local directory corresponding to the repository structure. Check the path and directory name and try again.".format(args.repodir))
