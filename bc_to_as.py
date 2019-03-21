@@ -358,7 +358,7 @@ def run_session(dir_path):
             # Find the path of each file
             file_path = file_folder_path + '/' + file
 
-            with open("fourpartusb1.info") as f:
+            with open(file_path) as f:
                 guymager_file = f.readlines()
             guymager_file = [x.strip() for x in file if x.strip() not in ['']]
 
