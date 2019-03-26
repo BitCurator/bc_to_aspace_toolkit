@@ -355,7 +355,7 @@ def run_session(dir_path):
             print("  [INFO] Using reference ID {}".format(file_name))
             # Find the path of each file
             file_path = file_folder_path + '/' + file
-            file_csv_report_path = file_folder_path + '/' + file + '/csv_reports/'
+            file_csv_report_path = file_folder_path + '/' + file + '/csv_reports'
             child_archival_object = create_json_file('create_child_archival_objects')
 
             # load datasets
