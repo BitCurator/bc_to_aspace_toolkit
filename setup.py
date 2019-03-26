@@ -18,13 +18,13 @@ setup(
     keywords = 'metadata identification disk images',
 
     platforms = ['POSIX', 'Windows'],
-    install_requires=['pandas', 'pathlib'],
+    install_requires=['pandas', 'pathlib', 'xmltodict'],
     classifiers = [
         'Development Status :: 2 - Pre-Alpha',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
-        'Natural Language :: English', 
+        'Natural Language :: English',
         'Operating System :: MacOS',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX :: Linux',
