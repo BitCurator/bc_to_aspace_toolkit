@@ -132,6 +132,7 @@ Created by: admin
   [INFO] Using reference ID SET1
   [INFO] Read dataset at /home/bcadmin/test_repository/project1/SET1_brunnout/formats.csv
   [INFO] Read dataset at /home/bcadmin/test_repository/project1/SET1_brunnout/siegfried.csv
+  [INFO] Read dataset at /home/bcadmin/yinglong_test/project1/SET1_brunnout/dfxml.xml
   [INFO] Loaded template stream for create_child_archival_objects.json
   [STATUS] Processing result for SET1:
 {'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
