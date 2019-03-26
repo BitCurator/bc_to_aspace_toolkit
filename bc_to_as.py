@@ -227,6 +227,7 @@ def xmlConvertToJson (file_path):
     with open(file_path, 'r') as f:
         xmlFile = f.read()
     jsonFile = json.dumps(xmltodict.parse(xmlFile), indent=4)
+    print("  [INFO] Read dataset at {}".format(file_path))
     return json.loads(jsonFile)
 
 
@@ -354,13 +355,22 @@ def run_session(dir_path):
             # Find the path of each file
             file_path = file_folder_path + '/' + file
             file_csv_report_path = file_folder_path + '/' + file + '/csv_reports/'
+            child_archival_object = create_json_file('create_child_archival_objects')
 
             # load datasets
             formats = load_dataset('formats', file_csv_report_path)
             siegfried = load_dataset('siegfried', file_path)
+
             # extract date
-            end_date = extract_date(max(siegfried['modified']))
-            begin_date = extract_date(min(siegfried['modified']))
+            dfxml_path = file_folder_path + '/' + file + '/dfxml.xml'
+            dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']['volume']['fileobject']
+            modified_time = []
+            for file in dfxml_files:
+                if "mtime" in file:
+                    modified_time.append(file['mtime']['#text'])
+            end_date = extract_date(max(modified_time))
+            begin_date = extract_date(min(modified_time))
+
             # Get total file sizes
             total_file_size = siegfried['filesize'].sum()
 
@@ -373,7 +383,7 @@ def run_session(dir_path):
                 note_detail.append(
                     "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
 
-            child_archival_object = create_json_file('create_child_archival_objects')
+
             child_archival_object['children'][0]['dates'][0]['begin'] = begin_date.strftime(
                 '%Y-%m-%d')
             child_archival_object['children'][0]['dates'][0]['end'] = end_date.strftime(
