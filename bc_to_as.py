@@ -17,6 +17,7 @@ import getpass
 import datetime
 from pathlib import Path
 from bc_to_aspace_toolkit import utilities
+import xmltodict
 
 try:
     from argparse import ArgumentParser
@@ -306,7 +307,7 @@ def run_session(dir_path):
                 '%Y-%m-%d')
             parent_resource['extents'][0]['number'] = 'Unknown'
             parent_resource['notes'] = []
-            parent_resource['level'] = 'files'
+            parent_resource['level'] = 'file'
             parent_resource['title'] = project_folder
             resource_api = repository_uri + '/resources'
             parent_resource_uri = call_archivesspace_api(
@@ -314,7 +315,7 @@ def run_session(dir_path):
 
             parent_object = create_json_file('create_archival_objects')
             parent_object['title'] = project_folder
-            parent_object['level'] = 'files'
+            parent_object['level'] = 'file'
             parent_object['ref_id'] = project_folder
             parent_object['resource']['ref'] = parent_resource_uri
             parent_object['dates'] = []
@@ -333,7 +334,7 @@ def run_session(dir_path):
                     '%Y-%m-%d')
                 parent_resource['extents'][0]['number'] = 'Unknown'
                 parent_resource['notes'] = []
-                parent_resource['level'] = 'files'
+                parent_resource['level'] = 'file'
                 parent_resource['title'] = project_folder
                 resource_api = repository_uri + '/resources'
                 parent_resource_uri = call_archivesspace_api(
