@@ -7,7 +7,7 @@ Metadata transfer tools - BitCurator to ArchivesSpace
 
 ## Setup and Installation
 
-This script is intended to be run in the BitCurator environment (or a similarly configured Linux host). It requires the **bulk_extractor** tool to be present (https://github.com/simsong/bulk_extractor), along with Brunnhilde (https://github.com/timothyryanwalsh/brunnhilde). Both of these are preinstalled in BitCurator. It also depends on **pandas** and **pathlib**. The **pandas** and **pathlib** dependencies are not included by default in the BitCurator environment; they will be automatically installed by the setup script if not present. 
+This script is intended to be run in the BitCurator environment (or a similarly configured Linux host). It requires the **bulk_extractor** tool to be present (https://github.com/simsong/bulk_extractor), along with Brunnhilde (https://github.com/timothyryanwalsh/brunnhilde). Both of these are preinstalled in BitCurator. It also depends on **pandas** and **pathlib**. The **pandas** and **pathlib** dependencies are not included by default in the BitCurator environment; they will be automatically installed by the setup script if not present.
 
 All commands from this point forward are presented as if logged in as the **bcadmin** user in BitCurator. First, open a terminal and check out the lastest version of this repo from GitHub:
 
@@ -40,7 +40,7 @@ The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, t
 
 ```shell
 bcadmin@ubuntu:~/bc_to_aspace_toolkit$ cd ~/
-bcadmin@ubuntu:~$ mmls nps-2010-emails.E01 
+bcadmin@ubuntu:~$ mmls nps-2010-emails.E01
 DOS Partition Table
 Offset Sector: 0
 Units are in 512-byte sectors
@@ -88,18 +88,17 @@ bcadmin@ubuntu:~$ cd test_repository/
 bcadmin@ubuntu:~/test_repository$ mkdir project1
 ```
 
-Now, change into the project directory and make a directory corresponding to our dataset (we'll copy the CSV files we created earlier into this directory next). Name this dataset **SET1_brunnout**. The portion of the name preceding the underscore (**SET1**) will be used as the reference ID when calling the ArchivesSpace API:
+Now, change into the project directory and make a directory corresponding to our dataset (we'll copy Brunnhilde output we created earlier into this directory next). Name this dataset **SET1_brunnout**. The portion of the name preceding the underscore (**SET1**) will be used as the reference ID when calling the ArchivesSpace API:
 
 ```shell
 bcadmin@ubuntu:~/test_repository$ cd project1/
 bcadmin@ubuntu:~/test_repository/project1$ mkdir SET1_brunnout
 ```
 
-Now copy the relevant CSV files over (note that **formats.csv** and **siegfried.csv** have different source locations):
+Now copy the content of the brunnhilde-reports folder:
 
 ```shell
-bcadmin@ubuntu:~/test_repository/project1$ cp ~/brunnhilde-reports/csv_reports/formats.csv SET1_brunnout/
-bcadmin@ubuntu:~/test_repository/project1$ cp ~/brunnhilde-reports/siegfried.csv SET1_brunnout/
+bcadmin@ubuntu:~/test_repository/project1$ cp -r ~/brunnhilde-reports/* SET1_brunnout
 ```
 
 ## Running the script
@@ -121,7 +120,7 @@ Is this the correct set of directories? [y/N]: y
 
 ArchivesSpace backend URL: http://server.url.here:8089
 Username: admin
-Password: 
+Password:
 Created by: admin
   Connected to ArchivesSpace backend!
   [INFO] Loaded template stream for create_repositories.json
@@ -133,13 +132,14 @@ Created by: admin
   [INFO] Using reference ID SET1
   [INFO] Read dataset at /home/bcadmin/test_repository/project1/SET1_brunnout/formats.csv
   [INFO] Read dataset at /home/bcadmin/test_repository/project1/SET1_brunnout/siegfried.csv
+  [INFO] Read dataset at /home/bcadmin/yinglong_test/project1/SET1_brunnout/dfxml.xml
   [INFO] Loaded template stream for create_child_archival_objects.json
   [STATUS] Processing result for SET1:
 {'status': 'Updated', 'id': 1, 'lock_version': 0, 'stale': None}
   Completed!
 ```
 
-You should now see the unpublished **ossarcflow_repository** listed in your ArchivesSpace console (assuming you are logged in). 
+You should now see the unpublished **ossarcflow_repository** listed in your ArchivesSpace console (assuming you are logged in).
 
 ## Documentation, help, and other information
 
