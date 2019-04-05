@@ -5,7 +5,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/network)
 [![Twitter Follow](https://img.shields.io/twitter/follow/bitcurator.svg?style=social&label=Follow)](https://twitter.com/bitcurator)
 
-A script to automate the extraction of file system metadata (including file names, file formats, last modified timestamps, and sizes) from disk images and create or update the relevant fields for an ArchivesSpace repository using the ArchivesSpace API.
+A script to automate the extraction of file system metadata - including file names, file formats, last modified timestamps, and sizes - from disk images and update the relevant fields in an ArchivesSpace repository (creating the repository if it does not already exist) using the ArchivesSpace API.
 
 ## Setup and Installation
 
