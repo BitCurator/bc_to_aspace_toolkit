@@ -1,6 +1,6 @@
 # bc_to_aspace_toolkit
 
-[![GitHub release](https://img.shields.io/github/:which(release|release-pre)/bitcurator/bc_to_aspace_toolkit.svg)]
+[![GitHub release](https://img.shields.io/github/releases/bitcurator/bc_to_aspace_toolkit.svg)]
 (https://github.com/bitcurator/bc_to_aspace_toolkit/releases)
 [![GitHub issues](https://img.shields.io/github/issues/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/issues)
 [![GitHub forks](https://img.shields.io/github/forks/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/network)
