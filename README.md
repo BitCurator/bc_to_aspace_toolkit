@@ -4,7 +4,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/issues)
 [![GitHub forks](https://img.shields.io/github/forks/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/network)
 
-Metadata transfer tools - BitCurator to ArchivesSpace
+A script to automate the extraction of file system metadata (including file names, file formats, last modified timestamps, and sizes) from disk images and create or update the relevant fields for an ArchivesSpace repository using the ArchivesSpace API.
 
 ## Setup and Installation
 
