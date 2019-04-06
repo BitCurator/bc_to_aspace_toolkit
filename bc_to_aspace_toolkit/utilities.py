@@ -10,7 +10,8 @@
 # Support utilities for bc_to_aspace_toolkit
 # 
 
-import os, sys
+import os
+import sys
 import pkg_resources
 
 def ask_user(question):
@@ -78,9 +79,6 @@ def check_repo_structure(repo_dir):
 def get_json_template(template_name):
     resource_package = "bc_to_aspace_toolkit"  # Exact package name here
     resource_path = '/'.join(('json_templates', template_name))  # Do not use os.path.join()
-
-    # String alternative (reference only, we'll use the file stream)
-    #template = pkg_resources.resource_string(resource_package, resource_path)
-    # A file-like stream:
+    # Read template as file-like stream:
     template = pkg_resources.resource_stream(resource_package, resource_path)
     return template
