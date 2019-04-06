@@ -143,14 +143,10 @@ Created by: admin
 
 You should now see the unpublished **ossarcflow_repository** listed in your ArchivesSpace console (assuming you are logged in).
 
-## Documentation, help, and other information
-
-Additional in-progress documentation at: https://docs.google.com/document/d/1-pU__nBYSgjHhfcxYhQLdci9rxSgo1XiXpLEFgQSkCE
-
 ## License(s)
 
 Unless otherwise indicated, software items in this repository are distributed under the terms of the GNU General Public License v3.0. See the LICENSE file for additional details.
 
 ## Development Team and Support
 
-Product of the OSSArcFlow research team.
+Product of the OSSArcFlow research team. Legacy documentation can be found at https://docs.google.com/document/d/1-pU__nBYSgjHhfcxYhQLdci9rxSgo1XiXpLEFgQSkCE.
