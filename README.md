@@ -11,7 +11,8 @@ A script to automate the extraction of file system metadata - including file nam
 
 ## Setup and Installation
 
-This script is intended to be run in the BitCurator environment (or a similarly configured Linux host). It requires the **bulk_extractor** tool to be present (https://github.com/simsong/bulk_extractor), along with Brunnhilde (https://github.com/timothyryanwalsh/brunnhilde). Both of these are preinstalled in BitCurator. It also depends on **pandas** and **pathlib**. The **pandas** and **pathlib** dependencies are not included by default in the BitCurator environment; they will be automatically installed by the setup script if not present.
+This script is intended to be run in the BitCurator environment (which includes all required dependencies other than **pandas** and **pathlib**, which are automatically installed by the setup script here) or a similarly configured Linux host. 
+When running in a non-BitCurator environment, Brunnhilde (https://github.com/timothyryanwalsh/brunnhilde) must be installed first.
 
 All commands from this point forward are presented as if logged in as the **bcadmin** user in BitCurator. First, open a terminal and check out the lastest version of this repo from GitHub:
 
