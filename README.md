@@ -1,3 +1,5 @@
+![Logo](https://github.com/BitCurator/bitcurator.github.io/blob/master/logos/BitCurator-Basic-400px.png)
+
 # bc_to_aspace_toolkit
 
 [![GitHub issues](https://img.shields.io/github/issues/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/issues)
