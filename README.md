@@ -31,7 +31,7 @@ bcadmin@ubuntu:~$ sudo python3 setup.py install
 
 A simple example with the included sample disk image is provided here.
 
-This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Need a simple way to get a test instance of ArchivesSpace up and running? See our simple Vagrant deployment option at https://github.com/bitcurator/aspace_vagrant.
+This script assumes you have a working ArchivesSpace instance running on another host, or in a VM accessible from your host. Looking for a simple way to get a test instance of ArchivesSpace up and running? You can build one with Vagrant and VirtualBox using our deployment tool at https://github.com/bitcurator/aspace_vagrant.
 
 Ensure you're in the **bc_to_aspace_toolkit** directory, then copy the provided sample image to your home directory:
 
