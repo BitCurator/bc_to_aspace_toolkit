@@ -77,7 +77,9 @@ duplicates.csv  formats.csv         mimetypes.csv     warnings.csv
 errors.csv      formatVersions.csv  unidentified.csv  years.csv
 ```
 
-We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that matches our repository, project, and dataset information. For this example, we will assume our ArchivesSpace instance is **clean** and contains no existing repositories.
+We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that matches our repository, project, and dataset information. 
+
+For this example, we will assume our ArchivesSpace instance does not contain a repository named **test_repository**.
 
 First, return to your home directory and create a folder corresponding to a repository name. For this simple example, we'll call it **test_repository**:
 
@@ -144,7 +146,7 @@ Created by: admin
   Completed!
 ```
 
-You should now see the unpublished **ossarcflow_repository** listed in your ArchivesSpace console (assuming you are logged in).
+You should now see the unpublished **test_repository** listed in your ArchivesSpace console (assuming you are logged in).
 
 ## License(s)
 
