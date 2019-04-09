@@ -21,7 +21,7 @@ All commands from this point forward are presented as if working as the **bcadmi
 bcadmin@ubuntu:~$ git clone https://github.com/bitcurator/bc_to_aspace_toolkit
 ```
 
-To install, run the following commands:
+Install with the following commands:
 
 ```shell
 bcadmin@ubuntu:~$ cd bc_to_aspace_toolkit
