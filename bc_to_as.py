@@ -370,7 +370,8 @@ def run_session(dir_path):
             begin_date = extract_date(min(modified_time))
 
             # Get total file sizes
-            total_file_size = siegfried['filesize'].sum()
+            total_file_size_bytes = siegfried['filesize'].sum()
+            total_file_size_megabytes = round((total_file_size_bytes / 1024), 2)
 
             # Create notes to document the counts of all the file types
             #     identified in the _format_ file
@@ -394,7 +395,7 @@ def run_session(dir_path):
             child_archival_object['children'][0]['notes'][0]['content'] = note_detail
             child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
             child_archival_object['children'][0]['extents'][0]['number'] = str(
-                total_file_size)
+                total_file_size_megabytes)
             child_archival_object['children'][0]['resource']['ref'] = parent_resource_uri
 
             if begin_date.strftime('%Y-%m') > end_date.strftime('%Y-%m'):
