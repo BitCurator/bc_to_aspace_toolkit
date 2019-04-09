@@ -29,7 +29,7 @@ bcadmin@ubuntu:~$ python3 setup.py build
 bcadmin@ubuntu:~$ sudo python3 setup.py install
 ```
 
-## Preparing a sample for transfer
+## Preparing a sample disk image
 
 A simple example with the included sample disk image is provided here.
 
@@ -77,6 +77,8 @@ bcadmin@ubuntu:~/brunnhilde-reports/csv_reports$ ls
 duplicates.csv  formats.csv         mimetypes.csv     warnings.csv
 errors.csv      formatVersions.csv  unidentified.csv  years.csv
 ```
+
+## Creating local repository, project, and dataset folders
 
 We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that matches our repository, project, and dataset information. 
 
