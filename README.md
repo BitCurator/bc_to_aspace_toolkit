@@ -7,7 +7,12 @@
 [![Build Status](https://travis-ci.org/BitCurator/bc_to_aspace_toolkit.svg?branch=master)](https://travis-ci.org/BitCurator/bc_to_aspace_toolkit)
 [![Twitter Follow](https://img.shields.io/twitter/follow/bitcurator.svg?style=social&label=Follow)](https://twitter.com/bitcurator)
 
-A script to automate the extraction of file system metadata - including file names, file formats, last modified timestamps, and sizes - from disk images and update the relevant fields in an ArchivesSpace repository (creating the repository if it does not already exist) using the ArchivesSpace API.
+This script parses file system metadata discovered in disk images by Brunnhilde, and uploads that metadata as archival objects to an ArchivesSpace instance using the ArchivesSpace API. The current version extracts and transfers the following information:
+
+* File formats (extracted from Siegfried report)
+* Aggregate size of file set (calculated from Siegfried report)
+* File count (calculated from Siegfried report)
+* Modified date range (extracted from fiwalk-generated DFXML)
 
 ## Setup and Installation
 
