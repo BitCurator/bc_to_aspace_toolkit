@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'bc_to_aspace_toolkit',
-    version = '0.0.3',
+    version = '0.0.4',
     url = 'https://github.com/bitcurator/bc_to_aspace_toolkit',
     author = 'Yinglong Zhang',
     author_email = 'yz6939@email.unc.edu',
