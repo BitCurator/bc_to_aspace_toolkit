@@ -16,7 +16,7 @@ This script parses file system metadata discovered in disk images by Brunnhilde,
 
 ## Setup and Installation
 
-This script is intended to be run in the BitCurator environment (preinstalled with all required dependencies other than **pandas**, **pathlib**, and **xmltodict** which are automatically installed by this script) or a similarly configured Linux host. 
+This script is intended to be run in the BitCurator environment (includes all required dependencies other than **pandas**, **pathlib**, and **xmltodict** which are automatically installed by this script) or a similarly configured Linux host. 
 
 When running in a non-BitCurator environment, **Brunnhilde** must be installed first. Installation instructions can be found at https://github.com/timothyryanwalsh/brunnhilde.
 
@@ -34,7 +34,7 @@ bcadmin@ubuntu:~$ python3 setup.py build
 bcadmin@ubuntu:~$ sudo python3 setup.py install
 ```
 
-## Preparing a sample disk image
+## Analyzing a sample disk image with Brunnhilde and The Sleuth Kit
 
 A simple example with the included sample disk image is provided here.
 
@@ -47,7 +47,7 @@ bcadmin@ubuntu:~$ cd ~/bc_to_aspace_toolkit
 bcadmin@ubuntu:~$ cp sample_disk_images/nps-2010-emails.E01 ~/
 ```
 
-The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, to extract files from disk images. The **tsk_recover** tool will make a best effort to autodetect disk image type, file system type, and partition offset, but this does not always work. We know this is likely an Expert Witness (E01) file from the file extension, and we can use the **mmls** tool to find the remaining information:
+The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, to extract files from disk images. The **tsk_recover** tool will make a best effort to autodetect disk image type, file system type, and partition offset, but this does not always work. We know this is likely an Expert Witness (E01) file based on the file extension; we can use the **mmls** tool to find the remaining information:
 
 ```shell
 bcadmin@ubuntu:~/bc_to_aspace_toolkit$ cd ~/
@@ -85,9 +85,8 @@ errors.csv      formatVersions.csv  unidentified.csv  years.csv
 
 ## Creating local repository, project, and dataset folders
 
-We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that matches our repository, project, and dataset information. 
-
-For this example, we will assume our ArchivesSpace instance does not contain a repository named **test_repository**.
+We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that exactly matches the name of our repository, the names of the projects contained within that repository, and the named datasets contained within each project. 
+The script will transfer metadata for any new datasets found within this directory structure, and will create the repository and project(s) in the ArchivesSpace instance with these exact, case-sensitive names if they do not already exist.
 
 First, return to your home directory and create a folder corresponding to a repository name. For this simple example, we'll call it **test_repository**:
 
