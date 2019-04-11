@@ -369,9 +369,9 @@ def run_session(dir_path):
             end_date = extract_date(max(modified_time))
             begin_date = extract_date(min(modified_time))
 
-            # Get total file sizes
+            # Get total file sizes, converting from bytes to megabytes at 2 dec. places
             total_file_size_bytes = siegfried['filesize'].sum()
-            total_file_size_megabytes = round((total_file_size_bytes / 1024), 2)
+            total_file_size_megabytes = round((total_file_size_bytes / 1048576), 2)
 
             # Create notes to document the counts of all the file types
             #     identified in the _format_ file
