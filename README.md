@@ -153,7 +153,7 @@ Created by: admin
   Completed!
 ```
 
-You should now see the unpublished **test_repository** listed in your ArchivesSpace console (assuming you are logged in).
+You should now see the unpublished **test_repository** listed in your ArchivesSpace console (assuming you are logged in). Select the repository, select the **Browse** menu, and click **Resources**. You should see **project1** listed as a Resource. Select the **View** button inside the **project1** resource pane. In the new view, click on the drop-down arrow next to **project1** (near the top of the page) to view the imported metadata associated with the **SET1** dataset.
 
 ## License(s)
 
