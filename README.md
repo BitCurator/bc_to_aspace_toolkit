@@ -9,10 +9,10 @@
 
 This script parses file system metadata discovered in disk images by Brunnhilde, and uploads that metadata as archival objects to an ArchivesSpace instance using the ArchivesSpace API. The current version extracts and transfers the following information:
 
-* File formats (extracted from Siegfried report)
-* Aggregate size of file set (calculated from Siegfried report)
-* File count (calculated from Siegfried report)
-* Modified date range (extracted from fiwalk-generated DFXML)
+* File formats identified (extracted from Siegfried report)
+* Aggregate size of files, reported in megabytes (calculated from Siegfried report)
+* Total file count (calculated from Siegfried report)
+* Date range of last-modified timestamps (extracted from fiwalk-generated DFXML)
 
 ## Setup and Installation
 
