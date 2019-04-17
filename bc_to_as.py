@@ -271,6 +271,9 @@ def run_session(dir_path):
             '%Y-%m-%dT%H:%M:%SZ')
         repository_uri = call_archivesspace_api(
             host, session_id, 'post', '/repositories', repository)['uri']
+        print("  [INFO] Created a new repository: {}".format(repository_uri))
+    else:
+        print("  [INFO] Found the repository: {}".format(repository_uri))
 
     # Find the path of the preject folders in the repository folder.
     # project_folder_paths = dir_path + '/' + repository_folder
@@ -361,11 +364,33 @@ def run_session(dir_path):
 
             # extract date
             dfxml_path = file_folder_path + '/' + file + '/dfxml.xml'
-            dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']['volume']['fileobject']
+
+            # dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']
+            # if 'volume' in dfxml_input:
+            #     dfxml_file_objects = dfxml_files['volume']['fileobject']
+            # else:
+            #     dfxml_file_objects = dfxml_files['fileobject']
+            #
+            # modified_time = []
+            # for file in dfxml_file_objects:
+            #     if "mtime" in file:
+            #         modified_time.append(file['mtime']['#text'])
+            # end_date = extract_date(max(modified_time))
+            # begin_date = extract_date(min(modified_time))
+
+            dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']
+            if 'volume' in dfxml_files:
+                dfxml_file_objects = dfxml_files['volume']['fileobject']
+            else:
+                dfxml_file_objects = dfxml_files['fileobject']
+
             modified_time = []
-            for file in dfxml_files:
+            for file in dfxml_file_objects:
                 if "mtime" in file:
-                    modified_time.append(file['mtime']['#text'])
+                    if "#text" in file['mtime']:
+                        modified_time.append(file['mtime']['#text'])
+                    else:
+                        modified_time.append(file['mtime'])
             end_date = extract_date(max(modified_time))
             begin_date = extract_date(min(modified_time))
 
