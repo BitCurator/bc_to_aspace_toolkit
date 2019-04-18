@@ -86,9 +86,9 @@ errors.csv      formatVersions.csv  unidentified.csv  years.csv
 ## Creating local repository, project, and dataset folders
 
 We need the **formats.csv** and **siegfried.csv** files to complete our transfer to our ArchivesSpace instance with **bc_to_as.py**. Prior to running the script, we need to create a folder structure that exactly matches the name of our repository, the names of the projects contained within that repository, and the named datasets contained within each project. 
-The script will transfer metadata for any new datasets found within this directory structure, and will create the repository and project(s) in the ArchivesSpace instance with these exact, case-sensitive names if they do not already exist.
+The script will transfer metadata for any new datasets found within this directory structure, and will create the project(s) in the specified (existing) repository in the ArchivesSpace instance with these exact, case-sensitive names if they do not already exist.
 
-First, return to your home directory and create a folder corresponding to a repository name. For this simple example, we'll call it **test_repository**:
+First, return to your home directory and create a folder corresponding to a repository name. For this simple example, we'll call it **test_repository**. **Note!** You **must** either create this repository from the staff interface of your ArchivesSpace instance before proceeding, or substitute the name of an existing repository as the directory name.
 
 ```shell
 bcadmin@ubuntu:~$ cd ~/
