@@ -261,17 +261,19 @@ def run_session(dir_path):
     repository_uri = get_repository_uri(repository_folder, session_id, host)
 
     if repository_uri == '':
-        repository = create_json_file('create_repositories')
-        repository['create_time'] = datetime.datetime.now().strftime(
-            '%Y-%m-%d')
-        repository['created_by'] = created_by
-        repository['name'] = repository_folder
-        repository['repo_code'] = repository_folder
-        repository['system_mtime'] = datetime.datetime.now().strftime(
-            '%Y-%m-%dT%H:%M:%SZ')
-        repository_uri = call_archivesspace_api(
-            host, session_id, 'post', '/repositories', repository)['uri']
-        print("  [INFO] Created a new repository: {}".format(repository_uri))
+        print("  [ERROR] The repository {} does not exist in this ArchivesSpace instance. Exiting...".format(repository_uri))
+        exit(1)
+    #    repository = create_json_file('create_repositories')
+    #    repository['create_time'] = datetime.datetime.now().strftime(
+    #        '%Y-%m-%d')
+    #    repository['created_by'] = created_by
+    #    repository['name'] = repository_folder
+    #    repository['repo_code'] = repository_folder
+    #    repository['system_mtime'] = datetime.datetime.now().strftime(
+    #        '%Y-%m-%dT%H:%M:%SZ')
+    #    repository_uri = call_archivesspace_api(
+    #        host, session_id, 'post', '/repositories', repository)['uri']
+    #    print("  [INFO] Created a new repository: {}".format(repository_uri))
     else:
         print("  [INFO] Found the repository: {}".format(repository_uri))
 
