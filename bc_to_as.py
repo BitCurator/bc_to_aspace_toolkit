@@ -286,7 +286,7 @@ def run_session(dir_path):
     #     a new resource.
     for project_folder in get_dir_names(dir_path):
         print("  [INFO] Processing project folder {}".format(project_folder))
-        ref_id_parent = project_folder
+        ref_id_parent = project_folder.replace(" ", '_')
 
         parent_archival_object = get_archival_object(
             ref_id_parent, repository_uri, session_id, host)
@@ -300,7 +300,7 @@ def run_session(dir_path):
 
         if parent_archival_object_uri == '':
             parent_resource = create_json_file('create_resources')
-            parent_resource['id_0'] = project_folder
+            parent_resource['id_0'] = project_folder.replace(" ", "_")
             parent_resource['dates'][0]['begin'] = datetime.datetime.now().strftime(
                 '%Y-%m-%d')
             parent_resource['dates'][0]['end'] = datetime.datetime.now().strftime(
@@ -316,7 +316,7 @@ def run_session(dir_path):
             parent_object = create_json_file('create_archival_objects')
             parent_object['title'] = project_folder
             parent_object['level'] = 'file'
-            parent_object['ref_id'] = project_folder
+            parent_object['ref_id'] = ref_id_parent
             parent_object['resource']['ref'] = parent_resource_uri
             parent_object['dates'] = []
             parent_object['extents'] = []
@@ -327,7 +327,7 @@ def run_session(dir_path):
         else:
             if parent_resource_uri == '':
                 parent_resource = create_json_file('create_resources')
-                parent_resource['id_0'] = project_folder
+                parent_resource['id_0'] = project_folder.replace(" ", "_")
                 parent_resource['dates'][0]['begin'] = datetime.datetime.now().strftime(
                     '%Y-%m-%d')
                 parent_resource['dates'][0]['end'] = datetime.datetime.now().strftime(
@@ -415,7 +415,7 @@ def run_session(dir_path):
             child_archival_object['children'][0]['dates'][0]['label'] = "modified"
             child_archival_object['children'][0]['level'] = 'file'
             child_archival_object['children'][0]['title'] = file_name
-            child_archival_object['children'][0]['ref_id'] = project_folder + \
+            child_archival_object['children'][0]['ref_id'] = project_folder.replace(" ", "_") + \
                 '_' + file_name
             child_archival_object['children'][0]['notes'][0]['content'] = note_detail
             child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
