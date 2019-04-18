@@ -261,7 +261,7 @@ def run_session(dir_path):
     repository_uri = get_repository_uri(repository_folder, session_id, host)
 
     if repository_uri == '':
-        print("  [ERROR] The repository {} does not exist in this ArchivesSpace instance. Exiting...".format(repository_uri))
+        print("  [ERROR] The repository {} does not exist in this ArchivesSpace instance. Exiting.".format(repository_folder))
         exit(1)
     #    repository = create_json_file('create_repositories')
     #    repository['create_time'] = datetime.datetime.now().strftime(
