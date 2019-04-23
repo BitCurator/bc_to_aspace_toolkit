@@ -415,7 +415,7 @@ def run_session(dir_path):
             child_archival_object['children'][0]['level'] = 'file'
             child_archival_object['children'][0]['title'] = file_name
             child_archival_object['children'][0]['ref_id'] = project_folder.replace(" ", "_") + \
-                '_' + file_name
+                '_' + file_name.replace(" ", "_")
             child_archival_object['children'][0]['notes'][0]['content'] = note_detail
             child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
             child_archival_object['children'][0]['extents'][0]['number'] = str(
