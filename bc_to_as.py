@@ -175,17 +175,14 @@ def get_archival_object(ref_id, repository_uri, session_id, host):
             otherwise, return ""
     """
     archival_object_output = ''
-    check_ref_id_api = repository_uri + '/archival_objects?all_ids=true'
+    check_ref_id_api = repository_uri + \
+        '/find_by_id/archival_objects?ref_id[]=' + ref_id
     archival_object_ids = call_archivesspace_api(
         host, session_id, 'get', check_ref_id_api)
-    if len(archival_object_ids) > 0:
-        for id in archival_object_ids:
-            archival_object_api = repository_uri + \
-                '/archival_objects/' + str(id)
-            archival_object = call_archivesspace_api(
-                host, session_id, 'get', archival_object_api)
-            if archival_object['ref_id'] == str(ref_id):
-                archival_object_output = archival_object
+    if len(archival_object_ids['archival_objects']) > 0:
+        archival_object_api = archival_object_ids['archival_objects'][0]['ref']
+        archival_object_output = call_archivesspace_api(
+            host, session_id, 'get', archival_object_api)
     return archival_object_output
 
 
@@ -418,7 +415,7 @@ def run_session(dir_path):
             child_archival_object['children'][0]['level'] = 'file'
             child_archival_object['children'][0]['title'] = file_name
             child_archival_object['children'][0]['ref_id'] = project_folder.replace(" ", "_") + \
-                '_' + file_name
+                '_' + file_name.replace(" ", "_")
             child_archival_object['children'][0]['notes'][0]['content'] = note_detail
             child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
             child_archival_object['children'][0]['extents'][0]['number'] = str(
