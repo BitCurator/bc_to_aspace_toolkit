@@ -260,17 +260,6 @@ def run_session(dir_path):
     if repository_uri == '':
         print("  [ERROR] The repository {} does not exist in this ArchivesSpace instance. Exiting.".format(repository_folder))
         exit(1)
-    #    repository = create_json_file('create_repositories')
-    #    repository['create_time'] = datetime.datetime.now().strftime(
-    #        '%Y-%m-%d')
-    #    repository['created_by'] = created_by
-    #    repository['name'] = repository_folder
-    #    repository['repo_code'] = repository_folder
-    #    repository['system_mtime'] = datetime.datetime.now().strftime(
-    #        '%Y-%m-%dT%H:%M:%SZ')
-    #    repository_uri = call_archivesspace_api(
-    #        host, session_id, 'post', '/repositories', repository)['uri']
-    #    print("  [INFO] Created a new repository: {}".format(repository_uri))
     else:
         print("  [INFO] Found the repository: {}".format(repository_uri))
 
@@ -361,38 +350,43 @@ def run_session(dir_path):
             formats = load_dataset('formats', file_csv_report_path)
             siegfried = load_dataset('siegfried', file_path)
 
-            # extract date
+            # use siegfried dates by default, overwrite if dfxml present
+            end_date = extract_date(max(siegfried['modified']))
+            begin_date = extract_date(min(siegfried['modified']))                    
+
+            # extract dates from dfxml file if present, or fall back to siegfried
+            # dates (e.g. if the source is not a disk image
             dfxml_path = file_folder_path + '/' + file + '/dfxml.xml'
+            if os.path.isfile(dfxml_path):
+                dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']
+                if 'volume' in dfxml_files:
+                    dfxml_file_objects = dfxml_files['volume']['fileobject']
+                else:
+                    dfxml_file_objects = dfxml_files['fileobject']
 
-            # dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']
-            # if 'volume' in dfxml_input:
-            #     dfxml_file_objects = dfxml_files['volume']['fileobject']
-            # else:
-            #     dfxml_file_objects = dfxml_files['fileobject']
-            #
-            # modified_time = []
-            # for file in dfxml_file_objects:
-            #     if "mtime" in file:
-            #         modified_time.append(file['mtime']['#text'])
-            # end_date = extract_date(max(modified_time))
-            # begin_date = extract_date(min(modified_time))
-
-            dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']
-            if 'volume' in dfxml_files:
-                dfxml_file_objects = dfxml_files['volume']['fileobject']
+                modified_time = []
+                for file in dfxml_file_objects:
+                    if "mtime" in file:
+                        if "#text" in file['mtime']:
+                            modified_time.append(file['mtime']['#text'])
+                        else:
+                            modified_time.append(file['mtime'])
+                end_date = extract_date(max(modified_time))
+                begin_date = extract_date(min(modified_time))
             else:
-                dfxml_file_objects = dfxml_files['fileobject']
+                print("  [WARNING] No dfxml.xml found for dataset {}".format(file))
+                print("            Type N and hit enter at the following prompt to")
+                print("            skip this dataset, or y to continue processing")
+                print("            using timestamps from Siegfried.")
 
-            modified_time = []
-            for file in dfxml_file_objects:
-                if "mtime" in file:
-                    if "#text" in file['mtime']:
-                        modified_time.append(file['mtime']['#text'])
-                    else:
-                        modified_time.append(file['mtime'])
-            end_date = extract_date(max(modified_time))
-            begin_date = extract_date(min(modified_time))
+                dfxml_response = utilities.ask_user("Continue processing this dataset using Siegfried timestamps?")
+                if user_response == False:
+                    print("  [INFO] Skipping, moving to next dataset...")
+                    continue
+                else:
+                    print("  [INFO] Continuing, using dates from Siegfried...")
 
+                    
             # Get total file sizes, converting from bytes to megabytes at 2 dec. places
             total_file_size_bytes = siegfried['filesize'].sum()
             total_file_size_megabytes = round((total_file_size_bytes / 1048576), 2)
