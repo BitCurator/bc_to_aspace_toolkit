@@ -379,7 +379,7 @@ def run_session(dir_path):
                 print("            skip this dataset, or y to continue processing")
                 print("            using timestamps from Siegfried.")
 
-                dfxml_response = utilities.ask_user("Continue processing this dataset using Siegfried timestamps?")
+                user_response = utilities.ask_user("Continue processing this dataset using Siegfried timestamps?")
                 if user_response == False:
                     print("  [INFO] Skipping, moving to next dataset...")
                     continue
