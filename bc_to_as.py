@@ -352,7 +352,7 @@ def run_session(dir_path):
 
             # use siegfried dates by default, overwrite if dfxml present
             end_date = extract_date(max(siegfried['modified']))
-            begin_date = extract_date(min(siegfried['modified']))                    
+            begin_date = extract_date(min(siegfried['modified']))
 
             # extract dates from dfxml file if present, or fall back to siegfried
             # dates (e.g. if the source is not a disk image
@@ -386,7 +386,7 @@ def run_session(dir_path):
                 else:
                     print("  [INFO] Continuing, using dates from Siegfried...")
 
-                    
+
             # Get total file sizes, converting from bytes to megabytes at 2 dec. places
             total_file_size_bytes = siegfried['filesize'].sum()
             total_file_size_megabytes = round((total_file_size_bytes / 1048576), 2)
@@ -408,8 +408,8 @@ def run_session(dir_path):
             child_archival_object['children'][0]['dates'][0]['label'] = "modified"
             child_archival_object['children'][0]['level'] = 'file'
             child_archival_object['children'][0]['title'] = file_name
-            child_archival_object['children'][0]['ref_id'] = project_folder.replace(" ", "_") + \
-                '_' + file_name.replace(" ", "_")
+            # child_archival_object['children'][0]['ref_id'] = project_folder.replace(" ", "_") + \
+            #     '_' + file_name.replace(" ", "_")
             child_archival_object['children'][0]['notes'][0]['content'] = note_detail
             child_archival_object['children'][0]['notes'][0]['type'] = 'physdesc'
             child_archival_object['children'][0]['extents'][0]['number'] = str(
