@@ -14,8 +14,13 @@
 
 import os
 import sys
-import getpass
 import datetime
+import getpass
+import json
+import re
+import requests
+import xmltodict
+import pandas as pd
 from pathlib import Path
 from bc_to_aspace_toolkit import utilities
 import xmltodict
@@ -36,7 +41,6 @@ def get_dir_names(dir_path, exclude=['__pycache__', 'json_templates']):
     Returns:
         type: folder names (array).
     """
-    import os
     dir_names = [dirs for root, dirs, files in os.walk(dir_path)][0]
     results = []
     for dir in dir_names:
@@ -58,8 +62,6 @@ def create_json_file(template_name):
     Returns:
         type: a json file
     """
-    import json
-
     template_stream = utilities.get_json_template(template_name + '.json')
     template = json.load(template_stream)
     print("  [INFO] Loaded template stream for {}".format(template_name + '.json'))
@@ -78,8 +80,6 @@ def load_dataset(file_name, dir_path):
     Returns:
         type: dataset(pandas dataframe)
     """
-    import pandas as pd
-    import os
     dataset_path = dir_path + '/' + file_name + '.csv'
     if os.path.isfile(dataset_path):
         dataset = pd.read_csv(dataset_path)
@@ -97,8 +97,6 @@ def extract_date(time):
     Returns:
         type: extracted date (datetime object)
     """
-    import re
-    import datetime
     match = re.search('\d{4}-\d{2}-\d{2}', time)
     date_extracted = datetime.datetime.strptime(
         match.group(), '%Y-%m-%d').date()
@@ -117,8 +115,6 @@ def get_sessionId(host, username, password):
     Returns:
         type : session id(string)
     """
-    import requests
-    import json
     url = host + '/users/' + username + '/login'
     params = {
         'password': password
@@ -142,8 +138,6 @@ def call_archivesspace_api(host, session_id, action, api, data=""):
     Raises:
         Exception: error code
     """
-    import requests
-    import json
     url = host + api
     headers = {
         'X-ArchivesSpace-Session': session_id
@@ -216,9 +210,6 @@ def xmlConvertToJson (file_path):
     Returns:
         json file: reutn the json format of the input file
     """
-
-    import xmltodict
-    import json
     with open(file_path, 'r') as f:
         xmlFile = f.read()
     jsonFile = json.dumps(xmltodict.parse(xmlFile), indent=4)
