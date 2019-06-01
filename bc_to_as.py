@@ -354,9 +354,23 @@ def run_session(dir_path):
             end_date = extract_date(max(siegfried['modified']))
             begin_date = extract_date(min(siegfried['modified']))
 
-            # extract dates from dfxml file if present, or fall back to siegfried
-            # dates (e.g. if the source is not a disk image
             dfxml_path = file_folder_path + '/' + file + '/dfxml.xml'
+
+            # If no DFXML exists, warn and optionally default to Siegfried dates
+            if not os.path.isfile(dfxml_path):
+                print("  [WARNING] No dfxml.xml found for dataset {}".format(file))
+                print("            Type N and hit enter at the following prompt to")
+                print("            skip this dataset, or y to continue processing")
+                print("            using timestamps from Siegfried.")
+                user_response = utilities.ask_user("Continue processing this dataset using Siegfried timestamps?")
+                if user_response == False:
+                    print("  [INFO] Skipping, moving to next dataset...")
+                    continue
+                else:
+                    print("  [INFO] Continuing, using dates from Siegfried...")
+
+            # If DFXML exists, use modified dates or warn and optionally default to
+            # Siegfried dates if no modified dates are found (e.g. CD-ROM)
             if os.path.isfile(dfxml_path):
                 dfxml_files = xmlConvertToJson(dfxml_path)['dfxml']
                 if 'volume' in dfxml_files:
@@ -371,20 +385,22 @@ def run_session(dir_path):
                             modified_time.append(file['mtime']['#text'])
                         else:
                             modified_time.append(file['mtime'])
-                end_date = extract_date(max(modified_time))
-                begin_date = extract_date(min(modified_time))
-            else:
-                print("  [WARNING] No dfxml.xml found for dataset {}".format(file))
-                print("            Type N and hit enter at the following prompt to")
-                print("            skip this dataset, or y to continue processing")
-                print("            using timestamps from Siegfried.")
-
-                user_response = utilities.ask_user("Continue processing this dataset using Siegfried timestamps?")
-                if user_response == False:
-                    print("  [INFO] Skipping, moving to next dataset...")
-                    continue
+                # Some disk images may have no modified times. Use Siegfried values
+                # and warn in that case.
+                if modified_time == []:
+                    print("  [WARNING] No modified times found in DFXML for files in dataset {}".format(file))
+                    print("            Type N and hit enter at the following prompt to")
+                    print("            skip this dataset, or y to continue processing")
+                    print("            using timestamps from Siegfried.")
+                    user_response = utilities.ask_user("Continue processing this dataset using Siegfried timestamps?")
+                    if user_response == False:
+                        print("  [INFO] Skipping, moving to next dataset...")
+                        continue
+                    else:
+                        print("  [INFO] Continuing, using dates from Siegfried...")
                 else:
-                    print("  [INFO] Continuing, using dates from Siegfried...")
+                    end_date = extract_date(max(modified_time))
+                    begin_date = extract_date(min(modified_time))
 
 
             # Get total file sizes, converting from bytes to megabytes at 2 dec. places
@@ -416,7 +432,7 @@ def run_session(dir_path):
                 total_file_size_megabytes)
             child_archival_object['children'][0]['resource']['ref'] = parent_resource_uri
 
-            if begin_date.strftime('%Y-%m') > end_date.strftime('%Y-%m'):
+            if begin_date.strftime('%Y-%m') < end_date.strftime('%Y-%m'):
                 child_archival_object['children'][0]['dates'][0]['expression'] = begin_date.strftime(
                     '%Y-%m') + '-' + end_date.strftime('%Y-%m')
             else:
