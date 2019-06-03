@@ -404,8 +404,14 @@ def run_session(dir_path):
 
             note_detail = []
             for i in range(n_formats):
-                note_detail.append(
-                    "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
+                # String format of Siegfried output may yield NaN for format name.
+                # Check and replace with the phrase unidentified files if needed
+                if pd.isnull(formats['Format'][i]):
+                    note_detail.append(
+                        "Number of unidentified files: " + str(formats['Count'][i]))
+                else:
+                    note_detail.append(
+                        "Number of " + str(formats['Format'][i]) + ": " + str(formats['Count'][i]))
 
 
             child_archival_object['children'][0]['dates'][0]['begin'] = begin_date.strftime(

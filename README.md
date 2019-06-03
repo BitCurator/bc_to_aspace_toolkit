@@ -47,7 +47,9 @@ bcadmin@ubuntu:~$ cd ~/bc_to_aspace_toolkit
 bcadmin@ubuntu:~$ cp sample_disk_images/nps-2010-emails.E01 ~/
 ```
 
-The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, to extract files from disk images. The **tsk_recover** tool will make a best effort to autodetect disk image type, file system type, and partition offset, but this does not always work. We know this is likely an Expert Witness (E01) file based on the file extension; we can use the **mmls** tool to find the remaining information:
+The Brunnhilde script uses a tool provided by The Sleuth Kit, **tsk_recover**, to extract files from disk images. The **tsk_recover** tool will make a best effort to autodetect disk image type, file system type, and partition offset, but this does not always work. Another tool provided by The Sleuth Kit, **mmls**, can assist in identifying partitions and their associated offsets. The features and limitations of both **tsk_recover** and **mmls** are beyond the scope of this README. **You should familiarize yourself with the operation of these tools before attempting to use the techniques presented in this example with your own materials.**
+
+For this example, we know this is most likely an Expert Witness (E01) file based on the file extension; we can use the **mmls** tool to find the partition information:
 
 ```shell
 bcadmin@ubuntu:~/bc_to_aspace_toolkit$ cd ~/
