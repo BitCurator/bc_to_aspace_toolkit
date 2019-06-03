@@ -406,7 +406,7 @@ def run_session(dir_path):
             for i in range(n_formats):
                 # String format of Siegfried output may yield NaN for format name.
                 # Check and replace with the phrase unidentified files if needed
-                if pd.isnull(str(formats['Format'][i])):
+                if pd.isnull(formats['Format'][i]):
                     note_detail.append(
                         "Number of unidentified files: " + str(formats['Count'][i]))
                 else:
