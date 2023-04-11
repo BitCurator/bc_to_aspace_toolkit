@@ -2,10 +2,15 @@
 
 # bc_to_aspace_toolkit
 
-[![Build Status](https://travis-ci.org/BitCurator/bc_to_aspace_toolkit.svg?branch=master)](https://travis-ci.org/BitCurator/bc_to_aspace_toolkit)
 [![GitHub forks](https://img.shields.io/github/forks/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/network)
 [![GitHub issues](https://img.shields.io/github/issues/bitcurator/bc_to_aspace_toolkit.svg)](https://github.com/bitcurator/bc_to_aspace_toolkit/issues)
 [![Twitter Follow](https://img.shields.io/twitter/follow/bitcurator.svg?style=social&label=Follow)](https://twitter.com/bitcurator)
+
+# END-OF-LIFE (EOL) NOTICE 
+
+This research software has reached end-of-life. The code in this repository is no longer actively maintained or supported.
+
+## About
 
 This script parses file system metadata discovered in disk images by Brunnhilde, and uploads that metadata as archival objects to an ArchivesSpace instance using the ArchivesSpace API. The current version extracts and transfers the following information:
 
